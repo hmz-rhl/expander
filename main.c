@@ -75,6 +75,7 @@ void test_exp2(){
 int main()
 {
     expander_t *e = expander_init(0x26);
+    
 
     expander_printGPIO(e);
 
