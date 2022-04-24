@@ -1,6 +1,6 @@
 #include "exp1-i2c.h"
 #include "exp2-i2c.h"
-#include "expander-i2c.h"
+#include "lib/expander-i2c.h"
 
 
 
