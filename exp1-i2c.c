@@ -245,9 +245,10 @@ void exp1_togglePinGPIO(exp1_t* exp, uint8_t pin ){
 
      if(exp == NULL)
     {
-        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
+        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", "exp1");
         exit(EXIT_FAILURE);
     }
+    
     if(exp1_getPinGPIO(exp, pin)){
 
         exp1_resetPinGPIO(exp,pin);
