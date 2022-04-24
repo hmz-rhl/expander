@@ -79,6 +79,9 @@ int main()
 
     expander_printGPIO(e);
 
+    expander_togglePinGPIO(e);
+    expander_printGPIO(e);
+
     expander_closeAndFree(e);
    
     //printf("%s\n",__func__);
