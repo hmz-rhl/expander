@@ -1,0 +1,12 @@
+CC = gcc
+SRC = $(wildcard *.c)
+OBJ = $(SRC:.c=.o)
+EXEC = main
+
+all : %(EXEC)
+
+%.o : %.c
+	$(CC) -o $@ -c $<
+
+$(EXEC) : $(OBJ)
+	$(CC) -o $@ $^
