@@ -1,9 +1,5 @@
-/*
-
-    __________Fonctionnel !___________
-    
-*/
 /**
+ * 
  * @authors Hamza Rahal
  * 
  * @date 24/04/2022

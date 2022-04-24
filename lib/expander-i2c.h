@@ -1,9 +1,3 @@
-/*
-
-    __________Fonctionnel !___________
-    
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
