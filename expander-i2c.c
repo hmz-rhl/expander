@@ -354,7 +354,7 @@ void expander_printGPIO(expander_t *exp){
 /**
  * Affichage des ports GPIO de l'expander
  **/
-    printf("___Expander 0x%02x_______________\n", ADDRESS_EXPANDER);
+    printf("___Expander 0x%02x_______________\n", exp->addr);
 
     for (size_t i = 0; i < 8; i++)
     {
