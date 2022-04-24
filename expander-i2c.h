@@ -42,6 +42,7 @@ typedef struct expander
     int fd;
     uint8_t buff[4];
     char label[8][MAX_STRING];
+    uint8_t addr;
 
 }expander_t;
 

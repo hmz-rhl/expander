@@ -6,11 +6,10 @@
 
 
 #include "expander-i2c.h"
-const uint8_t const ADDRESS_EXPANDER;
 
 expander_t* expander_init(uint8_t addr)
 {
-    if(addr > 0x27 || addr < 0x20 || addr == NULL)
+    if(addr > 0x27 || addr < 0x20 )
     {
         printf("ERREUR %s : vous avez saisie 0x%02x\nOr addr doit etre entre 0x20 et 0x27 pour l'expander\n",__func__);
         exit(EXIT_FAILURE);
@@ -32,8 +31,8 @@ expander_t* expander_init(uint8_t addr)
     // }
     // va_end(ap);
 
-    ADDRESS_EXPANDER = addr;
-    expander_label(exp);
+    exp->addr = addr;
+    expander_labelize(exp);
     expander_openI2C(exp);
     expander_setI2C(exp);
 
@@ -97,7 +96,7 @@ void expander_setI2C(expander_t *exp){
         exit(EXIT_FAILURE);
     }
 
-    if(ioctl(exp->fd,I2C_SLAVE,ADDRESS_EXPANDER) < 0) {
+    if(ioctl(exp->fd,I2C_SLAVE,exp->addr) < 0) {
         printf("ERREUR de setting du l'address l'interface I2C de la RPZ ...\n");
         close(exp->fd);
         exit(EXIT_FAILURE);
