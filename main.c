@@ -1,5 +1,8 @@
 #include "exp1-i2c.h"
 #include "exp2-i2c.h"
+#include "expander-i2c.h"
+
+
 
 void test_exp1(){
     
@@ -71,9 +74,12 @@ void test_exp2(){
 
 int main()
 {
+    expander_t *e = expander_init(0x26);
+
+    expander_printGPIO(e);
    
     //printf("%s\n",__func__);
-    test_exp1();
+   //test_exp1();
     //test_exp2();
 
     return 0;
