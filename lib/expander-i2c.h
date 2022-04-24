@@ -36,12 +36,15 @@
 #define REG_GPIO 0x09   //!< Port register
 #define REG_OLAT 0x0A   //!< Output latch register
 
+/*
+ LES LABELS SONT A CHANGER DANS LA FONCTION expanderlabelize()
+*/
 typedef struct expander
 {
     /* data */
-    int fd;
-    uint8_t buff[4];
-    char label[8][MAX_STRING];
+    int fd;                     // descripeur du fichier /dev/i2c-dev
+    uint8_t buff[4];            //buffer contenant la derniere valeur ecrite ou lue
+    char label[8][MAX_STRING];  //label des port GPIO pour l'affichage dans console
     uint8_t addr;
 
 }expander_t;
@@ -56,7 +59,7 @@ void expander_closeI2C(expander_t*);
 
 void expander_setI2C(expander_t*);
 
-uint8_t expander_getAllGPIO(expander_t*);
+uint8_t expander_getAllPinsGPIO(expander_t*);
 uint8_t expander_getPinGPIO(expander_t*, uint8_t);
 
 void expander_setPinGPIO(expander_t*, uint8_t);
@@ -67,8 +70,8 @@ void expander_resetOnlyPinSetOthersGPIO(expander_t*, uint8_t);
 
 void expander_togglePinGPIO(expander_t*, uint8_t);
 
-void expander_resetAllGPIO(expander_t*);
-void expander_setAllGPIO(expander_t*);
+void expander_setAllPinsGPIO(expander_t*);
+void expander_resetAllPinsGPIO(expander_t*);
 
 
 void expander_printGPIO(expander_t*);

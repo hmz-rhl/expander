@@ -3,10 +3,29 @@
     __________Fonctionnel !___________
     
 */
+/**
+ * @authors Hamza Rahal
+ * 
+ * @date 24/04/2022
+ * 
+ * 
+ * 
+ **/
 
 
 #include "expander-i2c.h"
 
+
+/**
+ ** 
+ * @brief   ouvre et configure l'interface i2c de la RP, instancie une variable de type expander_t et initialise ses champs dont l'adresse esclave du MCP
+ * 
+ * @param   addr adresse du MCP23008
+ * 
+ * 
+ * @return  renvoi un pointeur sur la variable instanciée
+ *  
+ **/
 expander_t* expander_init(uint8_t addr)
 {
     if(addr > 0x27 || addr < 0x20 )
@@ -39,6 +58,16 @@ expander_t* expander_init(uint8_t addr)
     return exp;
 }
 
+
+
+/**
+ ** 
+ * @brief   definit le champs label qui associera un nom a chaque pin GPIO pour la console
+ * 
+ * @param   exp pointeur sur variable structuré de l'expander a labeliser
+ * 
+ *  
+ **/
 void expander_labelize(expander_t* exp){
 
     if(exp == NULL || exp == 0)
@@ -59,6 +88,15 @@ void expander_labelize(expander_t* exp){
 }
 
 
+
+/**
+ ** 
+ * @brief   ouvre l'interface i2c de la RP
+ * 
+ * @param   exp pointeur sur variable structuré de l'expander a labeliser
+ * 
+ *  
+ **/
 void expander_openI2C(expander_t *exp){
 
     if(exp == NULL || exp == 0)
@@ -74,6 +112,15 @@ void expander_openI2C(expander_t *exp){
 }
 
 
+
+/**
+ ** 
+ * @brief   ferme l'interface i2c de la RP
+ * 
+ * @param   exp pointeur sur variable structuré de l'expander a labeliser
+ * 
+ *  
+ **/
 void expander_closeI2C(expander_t *exp){
 
     if(exp == NULL || exp == 0)
@@ -88,6 +135,15 @@ void expander_closeI2C(expander_t *exp){
 }
 
 
+
+/**
+ ** 
+ * @brief   configure l'interface i2c, et lui fait connaitre l'adresse de l'expander
+ * 
+ * @param   exp pointeur sur variable structuré de l'expander a labeliser
+ * 
+ *  
+ **/
 void expander_setI2C(expander_t *exp){
 
     if(exp == NULL || exp == 0)
@@ -105,7 +161,17 @@ void expander_setI2C(expander_t *exp){
 }
 
 
-uint8_t expander_getAllGPIO(expander_t *exp){
+
+/**
+ ** 
+ * @brief   Renvoi l'état des pins GPIO (0-7)
+ * 
+ * @param   exp pointeur sur variable structuré de l'expander a labeliser
+ * 
+ *  @return l'état des pins sous forme d'un octet où chaque bit correspond a un pin
+ * 
+ *  **/
+uint8_t expander_getAllPinsGPIO(expander_t *exp){
 
     if(exp == NULL || exp == 0)
     {
@@ -136,6 +202,18 @@ uint8_t expander_getAllGPIO(expander_t *exp){
 
 }
 
+
+
+/**
+ * 
+ * @brief   Renvoi l'état du pin
+ * 
+ * @param   exp pointeur sur variable structuré de l'expander a labeliser
+ * @param   pin le pin en question (entre 0 et 7)
+ * 
+ *  @return 0x00 ou 0x01 en fonction de l'état du pin
+ * 
+ *  **/
 uint8_t expander_getPinGPIO(expander_t *exp, uint8_t pin){
 
     if(exp == NULL || exp == 0)
@@ -150,6 +228,16 @@ uint8_t expander_getPinGPIO(expander_t *exp, uint8_t pin){
 }
 
 
+
+/**
+ * 
+ * @brief   mets un pin a 1
+ * 
+ * @param   exp pointeur sur variable structuré de l'expander a labeliser
+ * @param   pin le pin en question (entre 0 et 7)
+ * 
+ * 
+ *  **/
 void expander_setPinGPIO(expander_t *exp, uint8_t pin){
 
     if(exp == NULL || exp == 0)
@@ -183,6 +271,17 @@ void expander_setPinGPIO(expander_t *exp, uint8_t pin){
     printf("mise a 1 de GPIO[%d]\n", pin);
 }
 
+
+
+/**
+ * 
+ * @brief   mets un pin a 0
+ * 
+ * @param   exp pointeur sur variable structuré de l'expander a labeliser
+ * @param   pin le pin en question (entre 0 et 7)
+ * 
+ * 
+ *  **/
 void expander_resetPinGPIO(expander_t *exp, uint8_t pin){
 
     if(exp == NULL || exp == 0)
@@ -219,7 +318,19 @@ void expander_resetPinGPIO(expander_t *exp, uint8_t pin){
 }
 
 
-void expander_togglePinGPIO(expander_t* exp, uint8_t pin){
+
+/**
+ * 
+ * @brief   inverse l'état d'un pin
+ * 
+ * @param   exp pointeur sur variable structuré de l'expander a labeliser
+ * @param   pin le pin en question (entre 0 et 7)
+ * 
+ * 
+ *  **/
+void
+
+ expander_togglePinGPIO(expander_t* exp, uint8_t pin){
 
     if(exp == NULL || exp == 0)
     {
@@ -236,8 +347,15 @@ void expander_togglePinGPIO(expander_t* exp, uint8_t pin){
     }
 }
 
-
-void expander_setAllGPIO(expander_t *exp){
+/**
+ ** 
+ * @brief   mets tout les pins a 1
+ * 
+ * @param   exp pointeur sur variable structuré de l'expander a labeliser
+ * 
+ * 
+ *  **/
+void expander_setAllPinsGPIO(expander_t *exp){
 
     if(exp == NULL || exp == 0)
     {
@@ -259,7 +377,17 @@ void expander_setAllGPIO(expander_t *exp){
     printf("mise a 1 de tous les GPIO\n");
 }
 
-void expander_resetAllGPIO(expander_t *exp){
+
+
+/**
+ * 
+ * @brief   mets tout les pin a 0
+ * 
+ * @param   exp pointeur sur variable structuré de l'expander a labeliser
+ * 
+ * 
+ *  **/
+void expander_resetAllPinsGPIO(expander_t *exp){
 
 
     if(exp == NULL || exp == 0)
@@ -283,6 +411,16 @@ void expander_resetAllGPIO(expander_t *exp){
 }
 
 
+
+/**
+ * 
+ * @brief   mets le pin a 1 et tout les autres a 0
+ * 
+ * @param   exp pointeur sur variable structuré de l'expander a labeliser
+ * @param   pin le pin en question (entre 0 et 7)
+ * 
+ * 
+ *  **/
 void expander_setOnlyPinResetOthersGPIO(expander_t* exp, uint8_t pin){
 
     if(exp == NULL || exp == 0)
@@ -303,6 +441,17 @@ void expander_setOnlyPinResetOthersGPIO(expander_t* exp, uint8_t pin){
     printf("mise a 1 du seul GPIO[%d]\n", pin);
 }
 
+
+
+/**
+ * 
+ * @brief    mets le pin a 0 et tout les autres a 1
+ * 
+ * @param   exp pointeur sur variable structuré de l'expander a labeliser
+ * @param   pin le pin en question (entre 0 et 7)
+ * 
+ * 
+ *  **/
 void expander_resetOnlyPinSetOthersGPIO(expander_t* exp, uint8_t pin){
     
     if(exp == NULL || exp == 0)
@@ -325,6 +474,14 @@ void expander_resetOnlyPinSetOthersGPIO(expander_t* exp, uint8_t pin){
 
 
 
+/**
+ * 
+ * @brief    Affiche l'etat des pin sur la console
+ * 
+ * @param   exp pointeur sur variable structuré de l'expander a labeliser
+ * 
+ * 
+ *  **/
 void expander_printGPIO(expander_t *exp){
 
     if(exp == NULL || exp == 0)
@@ -365,6 +522,16 @@ void expander_printGPIO(expander_t *exp){
     putchar('\n');
 }
 
+
+
+/**
+ * 
+ * @brief   ferme l'interface i2C et libère la memoire utilisé pour exp
+ * 
+ * @param   exp pointeur sur variable structuré de l'expander a labeliser
+ * 
+ * 
+ *  **/
 void expander_closeAndFree(expander_t *exp)
 {
     if(exp == NULL || exp == 0)
