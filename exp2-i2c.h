@@ -46,11 +46,11 @@ typedef struct exp2
 
 exp2_t* exp2_init(void);
 
+void exp2_branchement(exp2_t*);
+
 void exp2_openI2C(exp2_t*);
 
 void exp2_closeI2C(exp2_t*);
-
-void exp2_branchement(exp2_t*);
 
 void exp2_setI2C(exp2_t*);
 

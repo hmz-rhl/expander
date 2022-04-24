@@ -22,7 +22,6 @@
 #define MAX_STRING          255
 
 
-
 // registers
 #define MCP23008_IODIR 0x00   //!< I/O direction register
 #define MCP23008_IPOL 0x01    //!< Input polarity register
@@ -72,4 +71,4 @@ void exp1_setAllGPIO(exp1_t*);
 
 void exp1_printGPIO(exp1_t*);
 
-void exp1_close(exp1_t*);
+void exp1_closeAndFree(exp1_t*);
