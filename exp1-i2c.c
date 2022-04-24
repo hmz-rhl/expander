@@ -10,7 +10,7 @@
 exp1_t* exp1_init(void)
 {
     exp1_t* exp = malloc(sizeof(exp1_t));
-    if (exp == NULL || exp = 0){
+    if (exp == NULL || exp == 0){
         printf("erreur d'allocation\n");
         exit(EXIT_FAILURE);
     }
@@ -23,7 +23,7 @@ exp1_t* exp1_init(void)
 
 void exp1_branchement(exp1_t* exp){
 
-    if(exp == NULL || exp = 0)
+    if(exp == NULL || exp == 0)
     {
         printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
@@ -58,7 +58,7 @@ void exp1_openI2C(exp1_t *exp){
 
 void exp1_closeI2C(exp1_t *exp){
 
-     if(exp == NULL || exp = 0)
+     if(exp == NULL || exp == 0)
     {
         printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
@@ -73,7 +73,7 @@ void exp1_closeI2C(exp1_t *exp){
 
 void exp1_setI2C(exp1_t *exp){
 
-     if(exp == NULL || exp = 0)
+     if(exp == NULL || exp == 0)
     {
         printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
@@ -90,7 +90,7 @@ void exp1_setI2C(exp1_t *exp){
 
 uint8_t exp1_getAllGPIO(exp1_t *exp){
 
-    if(exp == NULL || exp = 0)
+    if(exp == NULL || exp == 0)
     {
         printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
@@ -120,7 +120,7 @@ uint8_t exp1_getAllGPIO(exp1_t *exp){
 
 uint8_t exp1_getPinGPIO(exp1_t *exp, uint8_t pin){
 
-    if(exp == NULL || exp = 0)
+    if(exp == NULL || exp == 0)
     {
         printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
@@ -134,7 +134,7 @@ uint8_t exp1_getPinGPIO(exp1_t *exp, uint8_t pin){
 
 void exp1_setPinGPIO(exp1_t *exp, uint8_t pin){
     
-    if(exp == NULL || exp = 0)
+    if(exp == NULL || exp == 0)
     {
         printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
@@ -166,7 +166,7 @@ void exp1_setPinGPIO(exp1_t *exp, uint8_t pin){
 
 void exp1_resetPinGPIO(exp1_t *exp, uint8_t pin){
 
-     if(exp == NULL || exp = 0)
+     if(exp == NULL || exp == 0)
     {
         printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
@@ -200,7 +200,7 @@ void exp1_resetPinGPIO(exp1_t *exp, uint8_t pin){
 
 void exp1_setAllGPIO(exp1_t *exp){
 
-    if(exp == NULL || exp = 0)
+    if(exp == NULL || exp == 0)
     {
         printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
@@ -221,7 +221,7 @@ void exp1_setAllGPIO(exp1_t *exp){
 
 void exp1_resetAllGPIO(exp1_t *exp){
 
-    if(exp == NULL || exp = 0)
+    if(exp == NULL || exp == 0)
     {
         printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
@@ -243,7 +243,7 @@ void exp1_resetAllGPIO(exp1_t *exp){
 
 void exp1_togglePinGPIO(exp1_t* exp, uint8_t pin ){
 
-     if(exp == NULL || exp = 0)
+     if(exp == NULL || exp == 0)
     {
         printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", "exp1");
         exit(EXIT_FAILURE);
@@ -261,7 +261,7 @@ void exp1_togglePinGPIO(exp1_t* exp, uint8_t pin ){
 
 void exp1_setOnlyPinResetOthersGPIO(exp1_t* exp, uint8_t pin){
     
-     if(exp == NULL || exp = 0)
+     if(exp == NULL || exp == 0)
     {
         printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
@@ -282,7 +282,7 @@ void exp1_setOnlyPinResetOthersGPIO(exp1_t* exp, uint8_t pin){
 void exp1_resetOnlyPinSetOthersGPIO(exp1_t* exp, uint8_t pin){
     
 
-    if(exp == NULL || exp = 0)
+    if(exp == NULL || exp == 0)
     {
         printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
@@ -303,7 +303,7 @@ void exp1_resetOnlyPinSetOthersGPIO(exp1_t* exp, uint8_t pin){
 
 void exp1_printGPIO(exp1_t *exp){
 
-     if(exp == NULL || exp = 0)
+     if(exp == NULL || exp == 0)
     {
         printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
@@ -344,7 +344,7 @@ void exp1_printGPIO(exp1_t *exp){
 void exp1_close(exp1_t *exp)
 {
 
-     if(exp == NULL || exp = 0)
+     if(exp == NULL || exp == 0)
     {
         printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
