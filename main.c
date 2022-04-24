@@ -72,7 +72,7 @@ void test_exp2(){
 int main()
 {
    
-   printf("%s",__func__);
+   printf("%s\n",__func__);
     //test_exp1();
     //test_exp2();
 
