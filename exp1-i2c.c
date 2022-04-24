@@ -66,7 +66,7 @@ void exp1_closeI2C(exp1_t *exp){
 
     if(close(exp->fd) < 0) {
         printf("ERREUR de fermeture l'interface I2C de la RPZ...\n");
-        exit(EXIT_FAILURE);
+        //exit(EXIT_FAILURE);
     }
 }
 
@@ -349,6 +349,9 @@ void exp1_closeAndFree(exp1_t *exp)
         printf("ERREUR fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
-    exp1_closeI2C(exp);
-    free(exp);
+    if(close(exp->fd) < 0) {
+        printf("ERREUR de fermeture l'interface I2C de la RPZ...\n");
+        free(exp);
+        exit(EXIT_FAILURE);
+    }
 }

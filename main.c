@@ -24,7 +24,7 @@ void test_exp1(){
 
 
 
-    exp1_close(e);
+    exp1_closeAndFree(e);
     printf("Fin !\n\n");
 }
 
@@ -63,7 +63,7 @@ void test_exp2(){
     exp2_printGPIO(e);
 
 
-    exp2_close(e);
+    exp2_closeAndFree(e);
     printf("Fin !\n\n");
 }
 
