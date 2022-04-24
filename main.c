@@ -3,7 +3,7 @@
 
 void test_exp1(){
     
-    exp1_t *e;
+    exp1_t *e = exp1_init();;
 
     printf("Debut EXP1:\n");
 
