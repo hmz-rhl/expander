@@ -222,7 +222,7 @@ uint8_t expander_getPinGPIO(expander_t *exp, uint8_t pin){
         exit(EXIT_FAILURE);
     }
 
-    uint8_t ret = expander_getAllGPIO(exp);
+    uint8_t ret = expander_getAllPinsGPIO(exp);
 
     return (ret >> pin) & 0x01;
 }
@@ -251,7 +251,7 @@ void expander_setPinGPIO(expander_t *exp, uint8_t pin){
         close(exp->fd);
         exit(EXIT_FAILURE);
     }
-    uint8_t ancienGPIO = expander_getAllGPIO(exp);
+    uint8_t ancienGPIO = expander_getAllPinsGPIO(exp);
     uint8_t nouveauGPIO = ancienGPIO | (0x01 << pin);
 
 /* Ecriture des gpio de l'expander
@@ -296,7 +296,7 @@ void expander_resetPinGPIO(expander_t *exp, uint8_t pin){
         close(exp->fd);
         exit(EXIT_FAILURE);
     }
-    uint8_t ancienGPIO = expander_getAllGPIO(exp);
+    uint8_t ancienGPIO = expander_getAllPinsGPIO(exp);
     uint8_t nouveauGPIO = ancienGPIO & ~(0x01 << pin);
 
 /* Ecriture des gpio de l'expander
