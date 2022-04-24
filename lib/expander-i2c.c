@@ -513,7 +513,7 @@ void expander_printGPIO(expander_t *exp){
  **/
     printf("___");
     printf("%sExpander 0x%02x", KCYN, exp->addr);
-    printf("_______________\n");
+    printf("%s_______________\n",KWHT);
     for (size_t i = 0; i < 8; i++)
     {
         
