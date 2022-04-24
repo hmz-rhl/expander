@@ -3,12 +3,15 @@
 
 void test_exp1(){
     
-    exp1_t *e = exp1_init();
+    exp1_t *e;
 
     printf("Debut EXP1:\n");
 
 
-
+/**
+ * basculement du relais NL1
+ * 
+ **/
     for(int i = 0; i<5; i++)
     {
         printf("toggle de 0\n");

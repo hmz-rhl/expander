@@ -25,7 +25,7 @@ void exp1_branchement(exp1_t* exp){
 
     if(exp == NULL)
     {
-        printf("fontion %s : parametre exp NULL\n", __func__);
+        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
     strcpy(exp->branchement[0], "TYPE-2_NL1_ON*---->");
@@ -45,7 +45,7 @@ void exp1_openI2C(exp1_t *exp){
 
      if(exp == NULL)
     {
-        printf("%s : parametre exp NULL\n", __func__);
+        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
     exp->fd = open(I2C_DEVICE, O_RDWR);
@@ -60,7 +60,7 @@ void exp1_closeI2C(exp1_t *exp){
 
      if(exp == NULL)
     {
-        printf("%s : parametre exp NULL\n", __func__);
+        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
 
@@ -75,7 +75,7 @@ void exp1_setI2C(exp1_t *exp){
 
      if(exp == NULL)
     {
-        printf("%s : parametre exp NULL\n", __func__);
+        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
 
@@ -92,7 +92,7 @@ uint8_t exp1_getAllGPIO(exp1_t *exp){
 
     if(exp == NULL)
     {
-        printf("%s : parametre exp NULL\n", __func__);
+        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
 /**
@@ -122,7 +122,7 @@ uint8_t exp1_getPinGPIO(exp1_t *exp, uint8_t pin){
 
     if(exp == NULL)
     {
-        printf("%s : parametre exp NULL\n", __func__);
+        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
 
@@ -136,7 +136,7 @@ void exp1_setPinGPIO(exp1_t *exp, uint8_t pin){
     
     if(exp == NULL)
     {
-        printf("%s : parametre exp NULL\n", __func__);
+        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
     if(pin > 7 || pin < 0){
@@ -168,7 +168,7 @@ void exp1_resetPinGPIO(exp1_t *exp, uint8_t pin){
 
      if(exp == NULL)
     {
-        printf("%s : parametre exp NULL\n", __func__);
+        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
 
@@ -202,7 +202,7 @@ void exp1_setAllGPIO(exp1_t *exp){
 
     if(exp == NULL)
     {
-        printf("%s : parametre exp NULL\n", __func__);
+        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
 /* Ecriture des gpio de l'expander
@@ -223,7 +223,7 @@ void exp1_resetAllGPIO(exp1_t *exp){
 
     if(exp == NULL)
     {
-        printf("%s : parametre exp NULL\n", __func__);
+        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
 /* Ecriture des gpio de l'expander
@@ -245,7 +245,7 @@ void exp1_togglePinGPIO(exp1_t* exp, uint8_t pin ){
 
      if(exp == NULL)
     {
-        printf("%s : parametre exp NULL\n", __func__);
+        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
     if(exp1_getPinGPIO(exp, pin)){
@@ -262,7 +262,7 @@ void exp1_setOnlyPinResetOthersGPIO(exp1_t* exp, uint8_t pin){
     
      if(exp == NULL)
     {
-        printf("%s : parametre exp NULL\n", __func__);
+        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
     exp->buff[0] = REG_OLAT;
@@ -283,7 +283,7 @@ void exp1_resetOnlyPinSetOthersGPIO(exp1_t* exp, uint8_t pin){
 
     if(exp == NULL)
     {
-        printf("%s : parametre exp NULL\n", __func__);
+        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
     exp->buff[0] = REG_OLAT;
@@ -304,7 +304,7 @@ void exp1_printGPIO(exp1_t *exp){
 
      if(exp == NULL)
     {
-        printf("%s : parametre exp NULL\n", __func__);
+        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
 
@@ -345,7 +345,7 @@ void exp1_close(exp1_t *exp)
 
      if(exp == NULL)
     {
-        printf("%s : parametre exp NULL\n", __func__);
+        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
     close(exp->fd);
