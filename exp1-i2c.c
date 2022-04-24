@@ -25,7 +25,7 @@ void exp1_branchement(exp1_t* exp){
 
     if(exp == NULL || exp == 0)
     {
-        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
+        printf("ERREUR fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
     strcpy(exp->branchement[0], "TYPE-2_NL1_ON*---->");
@@ -45,12 +45,12 @@ void exp1_openI2C(exp1_t *exp){
 
      if(exp == NULL || exp == 0)
     {
-        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
+        printf("ERREUR fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
     exp->fd = open(I2C_DEVICE, O_RDWR);
     if(exp->fd < 0) {
-        printf("probleme d'ouverture l'interface I2C de la RPZ...\n");
+        printf("ERREUR d'ouverture l'interface I2C de la RPZ...\n");
         exit(EXIT_FAILURE);
     }
 }
@@ -60,12 +60,12 @@ void exp1_closeI2C(exp1_t *exp){
 
      if(exp == NULL || exp == 0)
     {
-        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
+        printf("ERREUR fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
 
     if(close(exp->fd) < 0) {
-        printf("probleme de fermeture l'interface I2C de la RPZ...\n");
+        printf("ERREUR de fermeture l'interface I2C de la RPZ...\n");
         exit(EXIT_FAILURE);
     }
 }
@@ -75,12 +75,12 @@ void exp1_setI2C(exp1_t *exp){
 
      if(exp == NULL || exp == 0)
     {
-        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
+        printf("ERREUR fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
 
     if(ioctl(exp->fd,I2C_SLAVE,EXP1_ADDR) < 0) {
-        printf("probleme de setting du l'address l'interface I2C de la RPZ ...\n");
+        printf("ERREUR de setting du l'address l'interface I2C de la RPZ ...\n");
         close(exp->fd);
         exit(EXIT_FAILURE);
     }
@@ -92,7 +92,7 @@ uint8_t exp1_getAllGPIO(exp1_t *exp){
 
     if(exp == NULL || exp == 0)
     {
-        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
+        printf("ERREUR fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
 /**
@@ -101,7 +101,7 @@ uint8_t exp1_getAllGPIO(exp1_t *exp){
     exp->buff[0] = REG_GPIO; 
     if(write(exp->fd,exp->buff,1) != 1){
         
-        printf("probleme d'écriture du registre GPIO sur 0x26\n");
+        printf("ERREUR d'écriture du registre GPIO sur 0x26\n");
         close(exp->fd);
         exit(EXIT_FAILURE);
     }
@@ -109,7 +109,7 @@ uint8_t exp1_getAllGPIO(exp1_t *exp){
  * Lecture du registre GPIO de l'expander
  **/
     if(read(exp->fd,exp->buff,1) != 1) {
-        printf("probleme de de lecture sur GPIO\n");
+        printf("ERREUR de de lecture sur GPIO\n");
         close(exp->fd);
         exit(EXIT_FAILURE);
     }
@@ -122,7 +122,7 @@ uint8_t exp1_getPinGPIO(exp1_t *exp, uint8_t pin){
 
     if(exp == NULL || exp == 0)
     {
-        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
+        printf("ERREUR fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
 
@@ -136,7 +136,7 @@ void exp1_setPinGPIO(exp1_t *exp, uint8_t pin){
     
     if(exp == NULL || exp == 0)
     {
-        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
+        printf("ERREUR fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
     if(pin > 7 || pin < 0){
@@ -157,7 +157,7 @@ void exp1_setPinGPIO(exp1_t *exp, uint8_t pin){
     printf("ecriture sur OLAT de 0x%02x...\n",exp->buff[1]);
 
     if(write(exp->fd,exp->buff,2) != 2) {
-        printf("probleme d'ecriture sur OLAT\r\n");
+        printf("ERREUR d'ecriture sur OLAT\r\n");
         exit(EXIT_FAILURE);
     }
     printf("mise a 1 de GPIO[%d]\n", pin);
@@ -168,7 +168,7 @@ void exp1_resetPinGPIO(exp1_t *exp, uint8_t pin){
 
      if(exp == NULL || exp == 0)
     {
-        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
+        printf("ERREUR fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
 
@@ -190,7 +190,7 @@ void exp1_resetPinGPIO(exp1_t *exp, uint8_t pin){
     printf("ecriture sur OLAT de 0x%02x...\n",exp->buff[1]);
 
     if(write(exp->fd,exp->buff,2) != 2) {
-        printf("probleme d'ecriture sur OLAT\r\n");
+        printf("ERREUR d'ecriture sur OLAT\r\n");
         exit(EXIT_FAILURE);
     }
     printf("mise a 0 de GPIO[%d]\n", pin);
@@ -202,7 +202,7 @@ void exp1_setAllGPIO(exp1_t *exp){
 
     if(exp == NULL || exp == 0)
     {
-        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
+        printf("ERREUR fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
 /* Ecriture des gpio de l'expander
@@ -213,7 +213,7 @@ void exp1_setAllGPIO(exp1_t *exp){
     printf("ecriture sur OLAT de 0x%02x...\n",exp->buff[1]);
 
     if(write(exp->fd,exp->buff,2) != 2) {
-        printf("probleme d'ecriture sur OLAT\r\n");
+        printf("ERREUR d'ecriture sur OLAT\r\n");
         exit(EXIT_FAILURE);
     }
     printf("mise a 1 de tous les GPIO\n");
@@ -223,7 +223,7 @@ void exp1_resetAllGPIO(exp1_t *exp){
 
     if(exp == NULL || exp == 0)
     {
-        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
+        printf("ERREUR fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
 /* Ecriture des gpio de l'expander
@@ -234,7 +234,7 @@ void exp1_resetAllGPIO(exp1_t *exp){
     printf("ecriture sur OLAT de 0x%02x...\n",exp->buff[1]);
 
     if(write(exp->fd,exp->buff,2) != 2) {
-        printf("probleme d'ecriture sur OLAT\r\n");
+        printf("ERREUR d'ecriture sur OLAT\r\n");
         exit(EXIT_FAILURE);
     }
     printf("mise a 0 de tous les GPIO\n");
@@ -245,7 +245,7 @@ void exp1_togglePinGPIO(exp1_t* exp, uint8_t pin ){
 
      if(exp == NULL || exp == 0)
     {
-        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", "exp1");
+        printf("ERREUR fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", "exp1");
         exit(EXIT_FAILURE);
     }
 
@@ -263,7 +263,7 @@ void exp1_setOnlyPinResetOthersGPIO(exp1_t* exp, uint8_t pin){
     
      if(exp == NULL || exp == 0)
     {
-        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
+        printf("ERREUR fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
     exp->buff[0] = REG_OLAT;
@@ -273,7 +273,7 @@ void exp1_setOnlyPinResetOthersGPIO(exp1_t* exp, uint8_t pin){
     printf("ecriture sur OLAT de 0x%02x...\n",exp->buff[1]);
 
     if(write(exp->fd,exp->buff,2) != 2) {
-        printf("probleme d'ecriture sur OLAT\r\n");
+        printf("ERREUR d'ecriture sur OLAT\r\n");
         exit(EXIT_FAILURE);
     }
     printf("mise a 1 du seul GPIO[%d]\n", pin);
@@ -284,7 +284,7 @@ void exp1_resetOnlyPinSetOthersGPIO(exp1_t* exp, uint8_t pin){
 
     if(exp == NULL || exp == 0)
     {
-        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
+        printf("ERREUR fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
     exp->buff[0] = REG_OLAT;
@@ -294,7 +294,7 @@ void exp1_resetOnlyPinSetOthersGPIO(exp1_t* exp, uint8_t pin){
     printf("ecriture sur OLAT de 0x%02x...\n",exp->buff[1]);
 
     if(write(exp->fd,exp->buff,2) != 2) {
-        printf("probleme d'ecriture sur OLAT\r\n");
+        printf("ERREUR d'ecriture sur OLAT\r\n");
         exit(EXIT_FAILURE);
     }
     printf("mise a 1 du seul GPIO[%d]\n", pin);
@@ -305,7 +305,7 @@ void exp1_printGPIO(exp1_t *exp){
 
      if(exp == NULL || exp == 0)
     {
-        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
+        printf("ERREUR fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
 
@@ -315,7 +315,7 @@ void exp1_printGPIO(exp1_t *exp){
     exp->buff[0] = REG_GPIO; 
     if(write(exp->fd,exp->buff,1) != 1){
         
-        printf("probleme d'écriture du registre GPIO sur 0x26\n");
+        printf("ERREUR d'écriture du registre GPIO sur 0x26\n");
         close(exp->fd);
         exit(EXIT_FAILURE);
     }
@@ -323,7 +323,7 @@ void exp1_printGPIO(exp1_t *exp){
  * Lecture du registre GPIO de l'expander
  **/
     if(read(exp->fd,exp->buff,1) != 1) {
-        printf("probleme de de lecture sur GPIO\n");
+        printf("ERREUR de de lecture sur GPIO\n");
         close(exp->fd);
         exit(EXIT_FAILURE);
     }
@@ -341,14 +341,14 @@ void exp1_printGPIO(exp1_t *exp){
 }
 
 
-void exp1_close(exp1_t *exp)
+void exp1_closeAndFree(exp1_t *exp)
 {
 
      if(exp == NULL || exp == 0)
     {
-        printf("fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
+        printf("ERREUR fonction %s : parametre exp NULL (utiliser: exp1_t *e = exp1_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
-    close(exp->fd);
+    exp1_closeI2C(exp);
     free(exp);
 }

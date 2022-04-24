@@ -20,19 +20,7 @@
 #define I2C_DEVICE          "/dev/i2c-1"
 #define EXP2_ADDR       (0x27)
 #define MAX_STRING          255
-
-
-
-typedef struct exp2
-{
-    /* data */
-    int fd;
-    uint8_t buff[4];
-    char branchement[8][MAX_STRING];
-
-} exp2_t;
-
-    
+  
 
 // registers
 #define MCP23008_IODIR 0x00   //!< I/O direction register
@@ -47,6 +35,14 @@ typedef struct exp2
 #define REG_GPIO 0x09   //!< Port register
 #define REG_OLAT 0x0A   //!< Output latch register
 
+typedef struct exp2
+{
+    /* data */
+    int fd;
+    uint8_t buff[4];
+    char branchement[8][MAX_STRING];
+
+}exp2_t;
 
 exp2_t* exp2_init(void);
 
@@ -75,5 +71,5 @@ void exp2_setAllGPIO(exp2_t*);
 
 void exp2_printGPIO(exp2_t*);
 
-void exp2_close(exp2_t*);
+void exp2_closeAndFree(exp2_t*);
 
