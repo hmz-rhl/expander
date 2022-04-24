@@ -1,7 +1,7 @@
 CC = gcc
+EXEC = main
 SRC = $(wildcard *.c)
 OBJ = $(SRC:.c=.o)
-EXEC = main
 
 all : $(EXEC)
 
