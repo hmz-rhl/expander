@@ -112,7 +112,7 @@ int SpiOpenPort (int spi_device)
 // Read n bytes from the 2 bytes add1 add2 address
 //////////
  
-int SpiWriteAndRead (int SpiDevice, unsigned char *TxData, unsigned char *RxData, int Length, int LeaveCsLow)
+int SpiWriteAndRead (int SpiDevice, uint8_t *TxData, uint8_t *RxData, int Length, int LeaveCsLow)
 {
 	struct spi_ioc_transfer spi;
 	int i = 0;
