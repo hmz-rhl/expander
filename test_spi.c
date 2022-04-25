@@ -21,6 +21,7 @@
 
 
 
+
 int main(){
 
 
@@ -46,9 +47,13 @@ int main(){
 	data[5]= 0x00;
     
 	
-	expander_resetOnlyPinSetOthersGPIO(exp, 5);
+	expander_resetPinGPIO(exp, PM_CS);
+	expander_resetPinGPIO(exp, PM1);
+	expander_resetPinGPIO(exp, PM0);
+
+	sleep(3);
 	wiringPiSPIDataRW (0, data, 6);
-	expander_setAllPinsGPIO(exp);
+	expander_setPinGPIO(exp, PM_CS);
 
 
 	printf("id bytes : ");
@@ -58,7 +63,7 @@ int main(){
 
 	}
 	putchar('\n');
-	expander_printGPIO(exp1);
+	expander_printGPIO(exp);
 	close(fd);
 
 	return EXIT_SUCCESS;

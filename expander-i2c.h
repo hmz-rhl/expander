@@ -32,6 +32,12 @@
 #define REG_GPIO 0x09   //!< Port register
 #define REG_OLAT 0x0A   //!< Output latch register
 
+#define PM1 6
+#define PM0 7
+#define PM_CS 5
+#define PP_CS 5
+#define CP_CS 5
+
 /*
  LES LABELS SONT A CHANGER DANS LA FONCTION expanderlabelize()
 */
