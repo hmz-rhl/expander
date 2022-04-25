@@ -159,7 +159,7 @@ int main()
   // ADE9078_getVersion(exp, fd, &spi_config);
   
   char tx_data[20];
-  Transfer_spi_buffers(fd,transfer, "HI", rx_data,4);
+  Transfer_spi_buffers(fd,spi_config, "HI", rx_data,4);
   printf("received : %s", tx_data);
   close(fd);
 
