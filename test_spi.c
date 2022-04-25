@@ -17,7 +17,7 @@
 #define SCLK 11
 #define MOSI 10
 
-#define PART_ID_16 0x472
+#define PART_ID_16 0x00b
 
 
 
@@ -53,7 +53,7 @@ int main(){
 	printf("id bits : ");
 	for (size_t i = 0; i < 4; i++)
 	{
-		printf("%d ", cmd_hdr1);
+		printf("%02x ", cmd_hdr1);
 
 	}
 	putchar('\n');
