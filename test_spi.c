@@ -31,6 +31,7 @@ int main(){
 		exit (EXIT_FAILURE) ;
   	}
 	expander_t *exp = expander_init(0x27);
+	expander_t *exp1 = expander_init(0x26);
 
 	uint8_t cmd_hdr1 = (PART_ID_16 >> 4)  & 0xFF ; // on obtient l'octet msb
 	uint8_t cmd_hdr2 = ((PART_ID_16 << 4) & 0xF0) | 0x08; // on indique quon souhaite lire en mettant le bit 3 a un (mask)
@@ -57,7 +58,7 @@ int main(){
 
 	}
 	putchar('\n');
-	 
+	expander_printGPIO(exp1);
 	close(fd);
 
 	return EXIT_SUCCESS;
