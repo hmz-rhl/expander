@@ -18,7 +18,7 @@
 
 #define VERSION_16 0x4FE //Reset: 0x0040 Access: R
 
-#define ADE9078_VERBOSE_DEBUG
+//#define ADE9078_VERBOSE_DEBUG
 
 int spi_cs0_fd;				//file descriptor for the SPI device
 int spi_cs1_fd;				//file descriptor for the SPI device
@@ -131,13 +131,6 @@ static void transfer(int fd, uint8_t *tx, uint8_t *rx)
         ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
         if (ret < 1)
                 pabort("can't send spi message");
-
-        for (ret = 0; ret < ARRAY_SIZE(tx); ret++) {
-                if (!(ret % 6))
-                        puts("");
-                printf("%.2X ", rx[ret]);
-        }
-        puts("");
 }
 
 uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This is the algorithm that reads from a register in the ADE9078. The arguments are the MSB and LSB of the address of the register respectively. The values of the arguments are obtained from the list of functions above.
@@ -246,8 +239,8 @@ int main(){
   int fd = spi_init();
 
   expander_t *exp = expander_init(0x26);
-  uint8_t rx = ADE9078_getVersion(exp, fd);  
-  printf("%04x\n", 0xFFFF);
+  uint16_t rx = ADE9078_getVersion(exp, fd);  
+  printf("0x%04x\n", rx);
   //char rx_data[20] = "";
   //transfer(fd, "1", rx_data);
   //printf("received : %s\n", rx_data);
