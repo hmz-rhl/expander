@@ -74,7 +74,7 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
 
     expander_resetOnlyPinSetOthersGPIO(exp, 5);
     sleep(10);
-    Transfer_spi_buffers(fd, tx_data, rx_data,16);
+    Transfer_spi_buffers(fd, tx_data, rx_data,4);
     sleep(10);
     expander_setPinGPIO(exp,5);
 
