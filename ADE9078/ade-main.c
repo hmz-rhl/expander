@@ -223,7 +223,17 @@ int main(){
     // bcm2835_spi_end();
 
     expander_resetAllPinsGPIO(exp1);
-    expander_setPinGPIO(exp1, 7);
+    expander_togglePinGPIO(exp1, 7);
+    sleep(1);
+    expander_togglePinGPIO(exp1, 7);
+    sleep(1);
+    expander_togglePinGPIO(exp1, 7);
+    sleep(1);
+    expander_togglePinGPIO(exp1, 7);
+    sleep(1);
+    expander_togglePinGPIO(exp1, 7);
+    sleep(1);
+    
     expander_printGPIO(exp1);
 
     printf("version %04x\n",ADE9078_getVersion(exp2));
