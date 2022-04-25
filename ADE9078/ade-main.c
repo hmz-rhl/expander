@@ -216,7 +216,7 @@ uint32_t ADE9078_spiRead32(uint16_t address,expander_t *exp) { //This is the alg
 }
 
 
-void ADE9078_spiWrite32(uint16_t address, uint32_t data) {
+void ADE9078_spiWrite32(uint16_t address, uint32_t data,expander_t *exp) {
 
 	//Prepare the 12 bit command header from the inbound address provided to the function
 	uint16_t temp_address;
@@ -270,7 +270,7 @@ void ADE9078_spiWrite32(uint16_t address, uint32_t data) {
 
   }
 
-void ADE9078_spiWrite16(uint16_t address, uint16_t data) {
+void ADE9078_spiWrite16(uint16_t address, uint16_t data,expander_t *exp) {
 
    //Prepare the 12 bit command header from the inbound address provided to the function
    uint16_t temp_address;
@@ -320,7 +320,7 @@ if (!bcm2835_init())
 	  return ADE9078_spiRead16(VERSION_16, exp);
 }
 
-void ADE9078_initialize(){
+void ADE9078_initialize(expander_t *exp){
 
   #ifdef ADE9078_VERBOSE_DEBUG
    printf(" ADE9078:initialize function started\n"); //wiring configuration defined in VCONSEL and ICONSEL registers init. in this function
@@ -378,24 +378,24 @@ void ADE9078_initialize(){
   //   printf("WARNING, POWER UP MAY NOT BE FINISHED\n");
   // }
    // #2: Configure Gains
-   ADE9078_spiWrite32(APGAIN_32, is->powerAGain);
-   ADE9078_spiWrite32(BPGAIN_32, is->powerBGain);
-   ADE9078_spiWrite32(CPGAIN_32, is->powerCGain);
+   ADE9078_spiWrite32(APGAIN_32, is->powerAGain, exp);
+   ADE9078_spiWrite32(BPGAIN_32, is->powerBGain, exp);
+   ADE9078_spiWrite32(CPGAIN_32, is->powerCGain, exp);
 
    uint16_t pgaGain = (is->vCGain << 12) + (is->vBGain << 10) + (is->vCGain << 8) +   // first 2 reserved, next 6 are v gains, next 8 are i gains.
                       (is->iNGain << 6) + (is->iCGain << 4) + (is->iBGain << 2) + is->iAGain;
-   ADE9078_spiWrite16(PGA_GAIN_16, pgaGain);
+   ADE9078_spiWrite16(PGA_GAIN_16, pgaGain, exp);
    uint32_t vLevelData = 0x117514;  // #5 : Write VLevel 0x117514
-   ADE9078_spiWrite32(VLEVEL_32, vLevelData); // #5
+   ADE9078_spiWrite32(VLEVEL_32, vLevelData, exp); // #5
 
-  ADE9078_spiWrite16(CONFIG0_32, 0x00000000);  // #7:  If current transformers are used, INTEN and ININTEN in the CONFIG0 register must = 0
+  ADE9078_spiWrite16(CONFIG0_32, 0x00000000, exp);  // #7:  If current transformers are used, INTEN and ININTEN in the CONFIG0 register must = 0
   // Table 24 to determine how to configure ICONSEL and VCONSEL in the ACCMODE register
   uint16_t settingsACCMODE = (is->iConsel << 6) + (is->vConsel << 5);
 
-	ADE9078_spiWrite16(ACCMODE_16, settingsACCMODE); // chooses the wiring mode (delta/Wye, Blondel vs. Non-blondel) to push up in initial config, Need the other if statements for all configuration modes
+	ADE9078_spiWrite16(ACCMODE_16, settingsACCMODE, exp); // chooses the wiring mode (delta/Wye, Blondel vs. Non-blondel) to push up in initial config, Need the other if statements for all configuration modes
 
-  ADE9078_spiWrite16(RUN_16, 1);  // 8: Write 1 to Run register
-  ADE9078_spiWrite16(EP_CFG_16, 1);  // 9: Write 1 to EP_CFG register
+  ADE9078_spiWrite16(RUN_16, 1, exp);  // 8: Write 1 to Run register
+  ADE9078_spiWrite16(EP_CFG_16, 1, exp);  // 9: Write 1 to EP_CFG register
 
   /*
   Potentially useful registers to configure:
@@ -404,17 +404,17 @@ void ADE9078_initialize(){
     0x41F PHNOLOAD : To say if something is "no load".
     Phase calibrations, such as APHCAL1_32
   */
-  ADE9078_spiWrite16(CONFIG1_16, 0x0000);
-  ADE9078_spiWrite16(CONFIG2_16, 0x0000);
-  ADE9078_spiWrite16(CONFIG3_16, 0x0000);
-  ADE9078_spiWrite32(DICOEFF_32, 0xFFFFE000); // Recommended by datasheet
+  ADE9078_spiWrite16(CONFIG1_16, 0x0000, exp);
+  ADE9078_spiWrite16(CONFIG2_16, 0x0000, exp);
+  ADE9078_spiWrite16(CONFIG3_16, 0x0000, exp);
+  ADE9078_spiWrite32(DICOEFF_32, 0xFFFFE000, exp); // Recommended by datasheet
 
   /* Registers configured in ADE9000 code */
   // zx_lp_sel
   // mask0, mask1, event_mask,
   // wfb_cfg,
-  ADE9078_spiWrite16(EGY_TIME_16, 0x0001);
-  ADE9078_spiWrite16(EP_CFG_16, 0x0021); // RD_EST_EN=1, EGY_LD_ACCUM=0, EGY_TMR_MODE=0, EGY_PWR_EN=1
+  ADE9078_spiWrite16(EGY_TIME_16, 0x0001, exp);
+  ADE9078_spiWrite16(EP_CFG_16, 0x0021, exp); // RD_EST_EN=1, EGY_LD_ACCUM=0, EGY_TMR_MODE=0, EGY_PWR_EN=1
 
   #ifdef ADE9078_VERBOSE_DEBUG
   //  printf(" ADE9078:initialize function completed. Showing values and registers written \n");
@@ -457,7 +457,7 @@ int main(){
     expander_t *exp1 = expander_init(0x26);
     expander_t *exp2 = expander_init(0x27);
 
-    ADE9078_initialize();
+    ADE9078_initialize(exp2);
     //spi_init();
     // uint8_t send_data = 0x23;
     // uint8_t read_data = bcm2835_spi_transfer(send_data);
