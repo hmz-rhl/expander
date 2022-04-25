@@ -467,8 +467,8 @@ void ADE9078_initialize(expander_t *exp){
 double decimalize(uint32_t input, double factor, double offset, uint8_t absolutevalue) //This function converts to floating point with an optional linear calibration (y=mx+b) by providing input in the following way as arguments (rawinput, gain, offset)
 {
 	#ifdef ADE9078_VERBOSE_DEBUG
-	Serial.print(" ADE9078::calibration (decimalize) and double type conversion function executed, RAW input: ");
-	Serial.println(input);
+	print(" ADE9078::calibration (decimalize) and double type conversion function executed, RAW input: ");
+	println("%d\n", input);
 	#endif
 	#ifdef ADE9078_Calibration
 	Serial.print(" ADE9078::calibration (decimalize) and double type conversion function executed, RAW input: ");
