@@ -53,8 +53,8 @@ int main(){
 	printf("id bits : ");
 	for (size_t i = 0; i < 4; i++)
 	{
-		printf(" %02x ", data[i]);
-)
+		printf("%02x ", data[i]);
+
 	}
 	putchar('\n');
 	 
