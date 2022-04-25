@@ -6,6 +6,7 @@
 #include "stdlib.h"
 #include <errno.h>
 #include <stdint.h>
+#include <fcntl.h>
 
 
 #define MISO 9
