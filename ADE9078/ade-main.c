@@ -112,10 +112,10 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp) { //This is the al
     //bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW);      // the default
 
       expander_resetOnlyPinSetOthersGPIO(exp, 5);
-      bcm2835_spi_transfer(commandHeader2); //Send MSB
-      bcm2835_spi_transfer(commandHeader1); //Send MSB
-      one = bcm2835_spi_write(WRITE);  //dummy write MSB, read out MSB
-      two = bcm2835_spi_write(WRITE);  //dummy write LSB, read out LSB
+      bcm2835_spi_write(commandHeader2); //Send MSB
+      bcm2835_spi_write(commandHeader1); //Send MSB
+      one = bcm2835_spi_transfer(WRITE);  //dummy write MSB, read out MSB
+      two = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
       expander_setPinGPIO(exp,5);
       bcm2835_spi_end();
 
@@ -183,12 +183,12 @@ uint32_t ADE9078_spiRead32(uint16_t address,expander_t *exp) { //This is the alg
 
     expander_resetOnlyPinSetOthersGPIO(exp, 5);
     expander_printGPIO(exp);
-    bcm2835_spi_transfer(commandHeader1); //Send MSB
-    bcm2835_spi_transfer(commandHeader2); //Send MSB
-    one = bcm2835_spi_write(WRITE);  //dummy write MSB, read out MSB
-    two = bcm2835_spi_write(WRITE);  //dummy write LSB, read out LSB
-    three = bcm2835_spi_write(WRITE);  //dummy write LSB, read out LSB
-    four = bcm2835_spi_write(WRITE);  //dummy write LSB, read out LSB
+      bcm2835_spi_write(commandHeader2); //Send MSB
+      bcm2835_spi_write(commandHeader1); //Send MSB
+      one = bcm2835_spi_transfer(WRITE);  //dummy write MSB, read out MSB
+      two = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
+      three = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
+      four = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
     expander_setPinGPIO(exp,5);
     bcm2835_spi_end();
 
@@ -262,8 +262,8 @@ void ADE9078_spiWrite32(uint16_t address, uint32_t data,expander_t *exp) {
 
     expander_resetOnlyPinSetOthersGPIO(exp, 5);
     expander_printGPIO(exp);
-    bcm2835_spi_transfer(commandHeader1); //Send MSB
-    bcm2835_spi_transfer(commandHeader2); //Send MSB
+    bcm2835_spi_write(commandHeader1); //Send MSB
+    bcm2835_spi_write(commandHeader2); //Send MSB
     bcm2835_spi_write(byteFour);  //dummy write MSB, read out MSB
     bcm2835_spi_write(byteThree);  //dummy write LSB, read out LSB
     bcm2835_spi_write(byteTwo);  //dummy write LSB, read out LSB
@@ -319,8 +319,8 @@ if (!bcm2835_init())
 
     expander_resetOnlyPinSetOthersGPIO(exp, 5);
     expander_printGPIO(exp);
-    bcm2835_spi_transfer(commandHeader1); //Send MSB
-    bcm2835_spi_transfer(commandHeader2); //Send MSB
+    bcm2835_spi_write(commandHeader1); //Send MSB
+    bcm2835_spi_write(commandHeader2); //Send MSB
     bcm2835_spi_write(byteTwo);  //dummy write LSB, read out LSB
     bcm2835_spi_write(byteOne);  //dummy write LSB, read out LSB
     expander_setPinGPIO(exp,5);
