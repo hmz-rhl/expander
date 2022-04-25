@@ -39,7 +39,7 @@ void pabort(const char *s)
 
 int  spi_init(){
 
-  int fd = open("/dev/spidev1.1",O_RDWR);
+  int fd = open(device,O_RDWR);
   int ret = -1;
   if (fd < 0)
           pabort("can't open device");
