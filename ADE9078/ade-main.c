@@ -206,7 +206,7 @@ uint32_t ADE9078_spiRead32(uint16_t address,expander_t *exp) { //This is the alg
 
 uint32_t ADE9078_getInstVoltageA(expander_t *exp){
 	uint32_t value=0;
-	value=spiRead32(AV_PCF_32, exp);
+	value=ADE9078_spiRead32(AV_PCF_32, exp);
 return value;
 }
 int main(){
