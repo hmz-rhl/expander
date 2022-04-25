@@ -223,16 +223,7 @@ int main(){
     // bcm2835_spi_end();
 
     expander_resetAllPinsGPIO(exp1);
-    expander_togglePinGPIO(exp1, 0);
-    sleep(1);
-    expander_togglePinGPIO(exp1, 0);
-    sleep(1);
-    expander_togglePinGPIO(exp1, 0);
-    sleep(1);
-    expander_togglePinGPIO(exp1, 0);
-    sleep(1);
-    expander_togglePinGPIO(exp1, 0);
-    sleep(1);
+    expander_setPinGPIO(exp1, 0);
     
     expander_printGPIO(exp1);
 

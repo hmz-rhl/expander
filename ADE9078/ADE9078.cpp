@@ -1104,12 +1104,12 @@ void ADE9078::spiWrite16(uint16_t address, uint16_t data) {
   #ifdef ADE9078_VERBOSE_DEBUG
    printf(" ADE9078::spiRead32 function details: \n");
    printf("Command Header: \n");
-   printf(commandHeader1);
-   printf(commandHeader2);
+   printf("%d \n",commandHeader1);
+   printf("%d \n",(commandHeader2);
    printf(" Wrote bytes (2(MSB) to 1)[BINARY]: \n");
-   printf(byteTwo, BIN);
+   printf("0x %02x \n",byteTwo);
    printf(" \n");
-   printf(byteOne, BIN);
+   printf("0x %02x \n",byteOne);
    printf(" ADE9078::spiRead32 function completed \n");
   #endif
 }
