@@ -209,6 +209,7 @@ uint32_t ADE9078_getInstVoltageA(expander_t *exp){
 	value=ADE9078_spiRead32(AV_PCF_32, exp);
 return value;
 }
+
 int main(){
 
     expander_t *exp = expander_init(0x27);
@@ -223,7 +224,7 @@ int main(){
     
 
     printf("version %04x\n",ADE9078_getVersion(exp));
-    printf("version %04x\n",ADE9078_getInstVoltageA(exp));
+    printf("tension %04x\n",ADE9078_getInstVoltageA(exp));
 
 
     bcm2835_close();
