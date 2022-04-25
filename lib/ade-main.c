@@ -151,12 +151,12 @@ int main(){
 
   int fd = spi_init();
 
-  expander_t *exp = expander_init(0x27);
-  uint16_t rx = ADE9078_getVersion(exp, fd);  
-  printf("0x%04x\n", rx);
-  //char rx_data[20] = "";
-  //transfer(fd, "1", rx_data);
-  //printf("received : %s\n", rx_data);
+  // expander_t *exp = expander_init(0x27);
+  // uint16_t rx = ADE9078_getVersion(exp, fd);  
+  // printf("0x%04x\n", rx);
+  char rx_data[20] = "";
+  transfer(fd, "wsh trankil", rx_data);
+  printf("received : %s\n", rx_data);
 
   close(fd);
 
