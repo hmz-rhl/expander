@@ -145,7 +145,7 @@ int main(){
 
     uint16_t version = ADE9078_getVersion(exp);
 
-    printf("version %02x\n",version);
+    printf("version %04x\n",version);
     bcm2835_close();
 
   return 0;
