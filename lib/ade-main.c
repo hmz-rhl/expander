@@ -169,16 +169,16 @@ uint8_t functionBitVal(uint16_t addr, uint8_t byteVal)
   uint16_t x = ((addr >> (8*byteVal)) & 0xff);
 
   #ifdef ADE9078_VERBOSE_DEBUG
-   Serial.print(" ADE9078::functionBitVal function (separates high and low command bytes of provided addresses) details: ");
-   Serial.print(" Address input (dec): ");
-   Serial.print(addr, DEC);
-   Serial.print(" Byte requested (dec): ");
-   Serial.print(byteVal, DEC);
-   Serial.print(" Returned Value (dec): ");
-   Serial.print(x, DEC);
-   Serial.print(" Returned Value (HEX): ");
-   Serial.print(x, HEX);
-   Serial.println(" ADE9078::functionBitVal function completed ");
+   printf(" ADE9078::functionBitVal function (separates high and low command bytes of provided addresses) details: ");
+   printf(" Address input (dec): ");
+   printf("%d\n",addr);
+   printf(" Byte requested (dec): ");
+   printf("%d\n", byteVal);
+   printf(" Returned Value (dec): ");
+   printf("%d\n", x);
+   printf(" Returned Value (HEX): ");
+   printf("%02x\n", x);
+   printfln(" ADE9078::functionBitVal function completed ");
   #endif
 
   return x;
@@ -248,13 +248,13 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
     #ifdef ADE9078_VERBOSE_DEBUG
      printf(" ADE9078::spiRead16 function details: \n");
      printf(" Command Header: \n");
-     printf(commandHeader1, BIN);
-     printf(commandHeader2, BIN);
+     printf("%02x\n",commandHeader1);
+     printf("%02x\n",commandHeader2);
      printf(" Address Byte 1(MSB)[HEX]: \n");
      printf(" Returned bytes (1(MSB) and 2) [HEX]: \n");
-     printf("%02x", HEX); //print MSB
-     printf(" \n");
-     printf(two, HEX);  //print LSB
+     printf("%02x", one); //print MSB
+     printf("\n");
+     printf("%02x\n", two);  //print LSB
      printf(" ADE9078::spiRead16 function completed \n");
     #endif
 
