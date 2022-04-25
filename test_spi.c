@@ -76,7 +76,7 @@ int main(){
       one = rx[0];  //dummy write MSB, read out MSB
       two = rx[1];  //dummy write LSB, read out LSB
 	  three = rx[2]; 
-	  four = rx[3]
+	  four = rx[3];
 	expander_setAllPinsGPIO(exp);
 
 	uint32_t readval_unsigned = (one << 24);  //Process MSB  (Alternate bitshift algorithm)
