@@ -237,7 +237,7 @@ static void transfer(int fd, uint8_t *tx, uint8_t *rx)
 
 int main()
 {
-  int fd =init();
+  int fd =spi_init();
 
   // expander_t *exp = expander_init(0x26);
   // ADE9078_getVersion(exp, fd, &spi_config);  

@@ -34,17 +34,7 @@ expander_t* expander_init(uint8_t addr)
         printf("ERREUR %s : allocation echouee\n", __func__);
         exit(EXIT_FAILURE);
     }
-    
-    // va_list ap;
 
-    // va_start(ap, addr);
-
-    // uint8_t expander_number = va_arg(ap, int);
-    // if(expander_number == 1)
-    // {
-
-    // }
-    // va_end(ap);
 
     exp->addr = addr;
     expander_labelize(exp);
@@ -71,15 +61,28 @@ void expander_labelize(expander_t* exp){
         printf("ERREUR fonction %s : parametre exp NULL (utiliser: expander_init())\n", __func__);
         exit(EXIT_FAILURE);
     }
+    if(exp->addr == 0x26){
+        
+        strcpy(exp->label[0],"RCD_RESET#*");
+        strcpy(exp->label[1],"RCD_TST#*");
+        strcpy(exp->label[2],"RCD_DIS#*");
+        strcpy(exp->label[3],"LOCK_D*");
+        strcpy(exp->label[4],"TYPE-E/F_ON*");
+        strcpy(exp->label[5],"TYPE-2_L2L3_ON*");
+        strcpy(exp->label[7],"TYPE-2_NL1_ON*");
+    }
+    else{
 
-    strcpy(exp->label[0],"LED_DIS#*--------->");
-    strcpy(exp->label[1],"CP_DIS#*---------->");
-    strcpy(exp->label[2],"PP_CS*------------>");
-    strcpy(exp->label[3],"CP_CS*------------>");
-    strcpy(exp->label[4],"T_CS*------------->");
-    strcpy(exp->label[5],"PM_CS*------------>");
-    strcpy(exp->label[6],"PM1*-------------->");
-    strcpy(exp->label[7],"PM0*-------------->");
+        strcpy(exp->label[0],"LED_DIS#*--------->");
+        strcpy(exp->label[1],"CP_DIS#*---------->");
+        strcpy(exp->label[2],"PP_CS*------------>");
+        strcpy(exp->label[3],"CP_CS*------------>");
+        strcpy(exp->label[4],"T_CS*------------->");
+        strcpy(exp->label[5],"PM_CS*------------>");
+        strcpy(exp->label[6],"PM1*-------------->");
+        strcpy(exp->label[7],"PM0*-------------->");
+    }
+
 
 }
 
