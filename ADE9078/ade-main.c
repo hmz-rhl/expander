@@ -105,6 +105,12 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp) { //This is the al
       printf("bcm2835_spi_begin failed. Are you running as root??\n");
       exit(EXIT_FAILURE);
     }
+    bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);      // The default
+    bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);                   // The default
+    bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_65536); // The default
+    //bcm2835_spi_chipSelect(BCM2835_SPI_CS0);                      // The default
+    //bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW);      // the default
+
       expander_resetOnlyPinSetOthersGPIO(exp, 5);
       bcm2835_spi_transfer(commandHeader1); //Send MSB
       bcm2835_spi_transfer(commandHeader2); //Send MSB
@@ -169,6 +175,12 @@ uint32_t ADE9078_spiRead32(uint16_t address,expander_t *exp) { //This is the alg
       printf("bcm2835_spi_begin failed. Are you running as root??\n");
       exit(EXIT_FAILURE);
     }
+    bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);      // The default
+    bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);                   // The default
+    bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_65536); // The default
+    //bcm2835_spi_chipSelect(BCM2835_SPI_CS0);                      // The default
+    //bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW);      // the default
+
     expander_resetOnlyPinSetOthersGPIO(exp, 5);
     expander_printGPIO(exp);
     bcm2835_spi_transfer(commandHeader1); //Send MSB
@@ -242,6 +254,12 @@ void ADE9078_spiWrite32(uint16_t address, uint32_t data,expander_t *exp) {
       printf("bcm2835_spi_begin failed. Are you running as root??\n");
       exit(EXIT_FAILURE);
     }
+    bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);      // The default
+    bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);                   // The default
+    bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_65536); // The default
+    //bcm2835_spi_chipSelect(BCM2835_SPI_CS0);                      // The default
+    //bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW);      // the default
+
     expander_resetOnlyPinSetOthersGPIO(exp, 5);
     expander_printGPIO(exp);
     bcm2835_spi_transfer(commandHeader1); //Send MSB
@@ -293,6 +311,12 @@ if (!bcm2835_init())
       printf("bcm2835_spi_begin failed. Are you running as root??\n");
       exit(EXIT_FAILURE);
     }
+    bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);      // The default
+    bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);                   // The default
+    bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_65536); // The default
+    //bcm2835_spi_chipSelect(BCM2835_SPI_CS0);                      // The default
+    //bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW);      // the default
+
     expander_resetOnlyPinSetOthersGPIO(exp, 5);
     expander_printGPIO(exp);
     bcm2835_spi_transfer(commandHeader1); //Send MSB
