@@ -20,6 +20,8 @@ unsigned char spi_mode;
 unsigned char spi_bitsPerWord;
 unsigned int spi_speed;
 
+const unsigned int WRITE = 0b00000000; //This value tells the ADE9078 that data is to be written to the requested register.
+const unsigned int READ = 0b10000000;  //This value tells the ADE9078 that data is to be read from the requested register.
 
 //////////
 // Init SPIdev
@@ -178,7 +180,7 @@ uint8_t functionBitVal(uint16_t addr, uint8_t byteVal)
    printf("%d\n", x);
    printf(" Returned Value (HEX): ");
    printf("%02x\n", x);
-   printfln(" ADE9078::functionBitVal function completed ");
+   printf(" ADE9078::functionBitVal function completed ");
   #endif
 
   return x;
