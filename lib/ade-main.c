@@ -158,7 +158,7 @@ int main()
   // expander_t *exp = expander_init(0x26);
   // ADE9078_getVersion(exp, fd, &spi_config);
 
-  Write_spi_configuration(fd,spi_config);
+  Write_spi_configuration(fd, &spi_config);
   
   char rx_data[20];
   Transfer_spi_buffers(fd, "HI", rx_data,4);
