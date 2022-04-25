@@ -33,5 +33,7 @@ int main(){
 
 	printf("id bits : %02x\n", data);
 
+	close(fd);
+
 	return EXIT_SUCCESS;
 }
