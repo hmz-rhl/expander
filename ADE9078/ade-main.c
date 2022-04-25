@@ -464,8 +464,31 @@ void ADE9078_initialize(expander_t *exp){
   #endif
 }
 
+double decimalize(uint32_t input, double factor, double offset, bool absolutevalue) //This function converts to floating point with an optional linear calibration (y=mx+b) by providing input in the following way as arguments (rawinput, gain, offset)
+{
+	#ifdef ADE9078_VERBOSE_DEBUG
+	Serial.print(" ADE9078::calibration (decimalize) and double type conversion function executed, RAW input: ");
+	Serial.println(input);
+	#endif
+	#ifdef ADE9078_Calibration
+	Serial.print(" ADE9078::calibration (decimalize) and double type conversion function executed, RAW input: ");
+	Serial.println(input);
+	#endif
+	//Warning, you can get overflows due to the printout of returned values in Arduino, See: http://forum.arduino.cc/index.php/topic,46931.0.html
+	if(absolutevalue == 0){
+	return (((double)input*factor)+offset); //standard y=mx+b calibration function applied to return
+	}
+	else{
+		return (abs(((double)input*factor)+offset)); //standard y=mx+b calibration function applied to return
+	}
+}
 
-
+double ADE9078_getPowerFactorA(expander_t *exp){
+	int16_t value=0;
+	value=ADE9078_spiRead16(PFA_16, exp);
+	double decimal = decimalize(value, 1.0, 0.0,0); //convert to double with calibration factors specified (default values in place)
+	return (decimal);
+}
 
 
 uint32_t ADE9078_getInstVoltageA(expander_t *exp){
@@ -496,7 +519,8 @@ int main(){
     expander_printGPIO(exp1);
 
     printf("version %04x\n",ADE9078_getVersion(exp2));
-    printf("tension %dV\n",ADE9078_getInstVoltageA(exp2));
+    printf("tension %d\n",ADE9078_getInstVoltageA(exp2));
+    printf("tension %lf\n",ADE9078_getPowerFactorA(exp2));
 
     expander_resetPinGPIO(exp1, 0);
 
