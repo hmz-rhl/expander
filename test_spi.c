@@ -41,7 +41,7 @@ static void transfer(int fd,uint8_t *rx, uint8_t *tx)
 		.delay_usecs = delay,
 		.speed_hz = speed,
 		.bits_per_word = bits,
-		cs_change = 1
+		.cs_change = 1
 	};
 
 	ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
