@@ -17,7 +17,7 @@
 #define SCLK 11
 #define MOSI 10
 
-#define PART_ID_16 0x472
+#define PART_ID_16 0x403
 
 
 
