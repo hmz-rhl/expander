@@ -47,7 +47,7 @@ int main(){
 	
 	expander_resetOnlyPinSetOthersGPIO(exp, 5);
 	wiringPiSPIDataRW (0, data, 6);
-	expander_setAllPinsGPIO(exp, 5);
+	expander_setAllPinsGPIO(exp);
 
 	printf("id bits : %02x\n", data);
 
