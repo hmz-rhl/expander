@@ -212,7 +212,8 @@ return value;
 
 int main(){
 
-    expander_t *exp = expander_init(0x27);
+    expander_t *exp1 = expander_init(0x26);
+    expander_t *exp2 = expander_init(0x27);
     //spi_init();
     // uint8_t send_data = 0x23;
     // uint8_t read_data = bcm2835_spi_transfer(send_data);
@@ -221,10 +222,10 @@ int main(){
     //   printf("Do you have the loopback from MOSI to MISO connected?\n");
     // bcm2835_spi_end();
 
-    
+    expander_printGPIO(exp1);
 
-    printf("version %04x\n",ADE9078_getVersion(exp));
-    printf("tension %dV\n",ADE9078_getInstVoltageA(exp));
+    printf("version %04x\n",ADE9078_getVersion(exp1));
+    printf("tension %dV\n",ADE9078_getInstVoltageA(exp1));
 
 
     bcm2835_close();
