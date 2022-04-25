@@ -26,7 +26,7 @@
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
 static const char *device = "/dev/spidev0.0";
-static uint8_t mode = 3;
+static uint8_t mode = SPI_MODE_0;
 static uint8_t bits = 8;
 static uint32_t speed = 1000000;
 static uint16_t delay = 0;
