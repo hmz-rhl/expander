@@ -60,7 +60,12 @@ int main(int argc, char *argv[])
 {
 	int ret = 0;
 	int fd;
-    uint8_t tx[] = "Hamza";
+    uint8_t tx[] = {
+        0x48, 0x45, 0x4C, 0x4C, 0x4F,
+        0x20, 
+        0x57, 0x4F, 0x52, 0x4C, 0x44,
+        0x0A 
+	};
     uint8_t rx[ARRAY_SIZE(tx)] = {0, }; 
 
 	//parse_opts(argc, argv);
