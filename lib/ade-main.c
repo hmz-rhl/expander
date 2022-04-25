@@ -44,6 +44,7 @@ uint8_t functionBitVal(uint16_t addr, uint8_t byteVal)
 }
 
 uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This is the algorithm that reads from a register in the ADE9078. The arguments are the MSB and LSB of the address of the register respectively. The values of the arguments are obtained from the list of functions above.
+    
     #ifdef ADE9078_VERBOSE_DEBUG
      printf(" ADE9078::spiRead16 function started \n");
     #endif
@@ -63,7 +64,7 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
 
   uint8_t rx_data[128];
 
-    expander_resetOnlyPinSetOthersGPIO(exp, 5);
+    expander_resetOnlyPinSetOthersGPIO(exp, 2);
     expander_printGPIO(exp);
     sleep(10);
     transfer(fd, tx_data, rx_data);
@@ -71,7 +72,7 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
     tx_data[0] = WRITE;
     tx_data[1] = WRITE;
     transfer(fd, tx_data, rx_data);
-    expander_setPinGPIO(exp,5);
+    expander_setPinGPIO(exp,2);
     expander_printGPIO(exp);
     
 
