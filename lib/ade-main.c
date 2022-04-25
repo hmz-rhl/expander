@@ -200,7 +200,11 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
     uint8_t one, two; //holders for the read values from the SPI Transfer
 
   uint8_t tx_data[4];
-  tx_data = {commandHeader1, commandHeader2, WRITE, WRITE};
+  tx_data[0] = commandHeader1;
+  tx_data[1] = commandHeader2;
+  tx_data[2] = WRITE;
+  tx_data[3] = WRITE;
+  
   uint8_t rx_data[128];
 
     expander_resetOnlyPinSetOthersGPIO(exp, 5);
