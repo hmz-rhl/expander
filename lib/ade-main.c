@@ -204,7 +204,7 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
   tx_data[1] = commandHeader2;
   tx_data[2] = WRITE;
   tx_data[3] = WRITE;
-  
+
   uint8_t rx_data[128];
 
     expander_resetOnlyPinSetOthersGPIO(exp, 5);
@@ -280,7 +280,7 @@ int main()
     int fd = SpiOpenPort(0);
 
     expander_t *exp = expander_init(0x26);
-    ADE9078_getVersion();
+    ADE9078_getVersion(exp, fd);
 
     SpiClosePort(0);
 
