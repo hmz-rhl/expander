@@ -47,15 +47,29 @@ void expander_labelize(expander_t* exp){
         exit(EXIT_FAILURE);
     }
 
-    strcpy(exp->label[0],"LED_DIS#*--------->");
-    strcpy(exp->label[1],"CP_DIS#*---------->");
-    strcpy(exp->label[2],"PP_CS*------------>");
-    strcpy(exp->label[3],"CP_CS*------------>");
-    strcpy(exp->label[4],"T_CS*------------->");
-    strcpy(exp->label[5],"PM_CS*------------>");
-    strcpy(exp->label[6],"PM1*-------------->");
-    strcpy(exp->label[7],"PM0*-------------->");
+    if(exp->addr == 0x26){
 
+        strcpy(exp->label[0],"RCD_RESET#*------->");
+        strcpy(exp->label[1],"RCD_TST#*--------->");
+        strcpy(exp->label[2],"RCD_DIS#*--------->");
+        strcpy(exp->label[3],"LOCK_D*----------->");
+        strcpy(exp->label[4],"TYPE-E/F_ON*------>");
+        strcpy(exp->label[5],"TYPE-2_L2L3_ON*--->");
+        strcpy(exp->label[6],"TYPE-2_NL1_ON*---->");
+        strcpy(exp->label[7],"------------------>");
+
+    }
+    else{
+
+        strcpy(exp->label[0],"LED_DIS#*--------->");
+        strcpy(exp->label[1],"CP_DIS#*---------->");
+        strcpy(exp->label[2],"PP_CS*------------>");
+        strcpy(exp->label[3],"CP_CS*------------>");
+        strcpy(exp->label[4],"T_CS*------------->");
+        strcpy(exp->label[5],"PM_CS*------------>");
+        strcpy(exp->label[6],"PM1*-------------->");
+        strcpy(exp->label[7],"PM0*-------------->");
+    }
 }
 
 
