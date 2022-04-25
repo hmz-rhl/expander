@@ -1,4 +1,5 @@
 #include "expander-i2c.h"
+#include "spi-lib.h"
 
 #include <stdint.h>
 #include <unistd.h>
@@ -6,9 +7,7 @@
 #include <stdlib.h>
 #include <getopt.h>
 #include <fcntl.h>
-#include <sys/ioctl.h>
-#include <linux/types.h>
-#include <linux/spi/spidev.h>
+
 
 #define VERSION_16 0x4FE //Reset: 0x0040 Access: R
 
@@ -209,7 +208,7 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
 
     expander_resetOnlyPinSetOthersGPIO(exp, 5);
     sleep(10);
-    SpiWriteAndRead(fd, tx_data, rx_data,16,1);
+    Transfer_spi_buffers(fd, tx_data, rx_data,16);
     sleep(10);
     expander_setPinGPIO(exp,5);
 
@@ -219,7 +218,7 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
     if(status < 0) exit_failure();
 
 
-    SpiWriteAndRead(0,tx_data,rx_data,128,0);
+    Transfer_spi_buffers(0,tx_data,rx_data,128,0);
 
     one = rx_data[0];  //MSB Byte 1  (Read in data on dummy write (null MOSI signal)) - only one needed as 1 byte
     two = rx_data[1];  //"LSB "Byte 2?"  (Read in data on dummy write (null MOSI signal)) - only one needed as 1 byte, but it seems like it responses will send a byte back in 16 bit response total, likely this LSB is useless, but for timing it will be collected.  This may always be a duplicate of the first byte,
@@ -281,13 +280,20 @@ uint8_t ADE9078_getVersion(expander_t *exp, int fd){
 
 int main()
 {
-    int fd = SpiOpenPort(0);
+  int fd = open("/dev/spidev0.0",O_RDWR);
 
-    expander_t *exp = expander_init(0x26);
-    ADE9078_getVersion(exp, fd);
+  spi_config_t spi_config = {
+    spi_mode = 0;      // [0-3]  (-1 when not configured).
+    lsb_first = 0;     // {0,1}  (-1 when not configured).
+    bits_per_word = 8; // [7...] (-1 when not configured).
+    spi_speed = 1000000;     // 0 when not configured.
+    spi_ready = 1;     // {0,1}  (-1 when not configured).
+  }
+  expander_t *exp = expander_init(0x26);
+  ADE9078_getVersion(exp, fd);
 
-    SpiClosePort(0);
+  close(fd);
 
 
-    return 0;
+  return 0;
 }
