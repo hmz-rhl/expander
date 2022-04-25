@@ -20,8 +20,8 @@ unsigned char spi_mode;
 unsigned char spi_bitsPerWord;
 unsigned int spi_speed;
 
-const unsigned int WRITE = 0b00000000; //This value tells the ADE9078 that data is to be written to the requested register.
-const unsigned int READ = 0b10000000;  //This value tells the ADE9078 that data is to be read from the requested register.
+const uint8_t WRITE = 0b00000000; //This value tells the ADE9078 that data is to be written to the requested register.
+const uint8_t READ = 0b10000000;  //This value tells the ADE9078 that data is to be read from the requested register.
 
 //////////
 // Init SPIdev
@@ -199,11 +199,12 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
 
     uint8_t one, two; //holders for the read values from the SPI Transfer
 
-  uint8_t tx_data = {commandHeader1, commandHeader2, WRITE, WRITE};
+  uint8_t tx_data[4];
+  tx_data = {commandHeader1, commandHeader2, WRITE, WRITE};
   uint8_t rx_data[128];
 
     expander_resetOnlyPinSetOthersGPIO(exp, 5);
-    SpiWriteAndRead(0,tx_data, rx_data,16,1);
+    SpiWriteAndRead(0, tx_data, rx_data,16,1);
   #ifdef RASPBERRYPIZ //Arduino SPI Routine
 
     int status = SpiOpenPort(0);
