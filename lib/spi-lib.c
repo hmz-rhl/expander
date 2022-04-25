@@ -159,22 +159,15 @@ int Parse_spi_bits_per_word(const char *optarg, spi_config_t *config)
 
 
 
-int Transfer_spi_buffers(int fd, void *tx_buffer, void *rx_buffer, unsigned long length)
+int Transfer_spi_buffers(int fd, struct spi_ioc_transfer *transfer, void *tx_buffer, void *rx_buffer, unsigned long length)
 {
-	struct spi_ioc_transfer transfer = {
-		.tx_buf        = 0,
-		.rx_buf        = 0,
-		.len           = 0,
-		.delay_usecs   = 0,
-		.speed_hz      = 0,
-		.bits_per_word = 0,
-	};
 
-	transfer.rx_buf = (unsigned long)rx_buffer;
-	transfer.tx_buf = (unsigned long)tx_buffer;
-	transfer.len = length;
 
-	if (ioctl(fd, SPI_IOC_MESSAGE(1), & transfer) < 0)
+	transfer->rx_buf = (unsigned long)rx_buffer;
+	transfer->tx_buf = (unsigned long)tx_buffer;
+	transfer->len = length;
+
+	if (ioctl(fd, SPI_IOC_MESSAGE(1), transfer) < 0)
 		return -1;
 
 	return 0;
