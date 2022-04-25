@@ -33,7 +33,6 @@ static void pabort(const char *s)
 static void transfer(int fd,uint8_t *rx, uint8_t *tx)
 {
 	int ret;
-	uint8_t tx[] = "hamza";
 	
 	struct spi_ioc_transfer tr = {
 		.tx_buf = (unsigned long)tx,
@@ -60,9 +59,7 @@ int main(int argc, char *argv[])
 {
 	int ret = 0;
 	int fd;
-    uint8_t tx[] = {
-        0xFF,
-    };
+    uint8_t tx[] = "Hamza";
     uint8_t rx[ARRAY_SIZE(tx)] = {0, }; 
 
 	//parse_opts(argc, argv);
