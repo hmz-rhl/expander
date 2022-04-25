@@ -12,7 +12,6 @@
 #include <linux/types.h>
 #include <linux/spi/spidev.h>
 
-#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
 
 
@@ -20,23 +19,7 @@
 
 //#define ADE9078_VERBOSE_DEBUG
 
-int spi_cs0_fd;				//file descriptor for the SPI device
-int spi_cs1_fd;				//file descriptor for the SPI device
-unsigned char spi_mode;
-unsigned char spi_bitsPerWord;
-unsigned int spi_speed;
 
-static const char *device = "/dev/spidev1.1";
-static uint8_t mode;
-static uint8_t bits = 8;
-static uint32_t speed = 500000;
-static uint16_t delay;
-
-static void pabort(const char *s)
-{
-        perror(s);
-        abort();
-}
 
 const uint8_t WRITE = 0b00000000; //This value tells the ADE9078 that data is to be written to the requested register.
 const uint8_t READ = 0b10000000;  //This value tells the ADE9078 that data is to be read from the requested register.
@@ -68,69 +51,6 @@ uint8_t functionBitVal(uint16_t addr, uint8_t byteVal)
   #endif
 
   return x;
-}
-
-int  spi_init(){
-
-  int fd = open("/dev/spidev0.0",O_RDWR);
-  int ret = -1;
-  if (fd < 0)
-          pabort("can't open device");
-
-  /*
-    * spi mode
-    */
-  ret = ioctl(fd, SPI_IOC_WR_MODE, &mode);
-  if (ret == -1)
-          pabort("can't set spi mode");
-
-  ret = ioctl(fd, SPI_IOC_RD_MODE, &mode);
-  if (ret == -1)
-          pabort("can't get spi mode");
-
-  /*
-    * bits per word
-    */
-  ret = ioctl(fd, SPI_IOC_WR_BITS_PER_WORD, &bits);
-  if (ret == -1)
-          pabort("can't set bits per word");
-
-  ret = ioctl(fd, SPI_IOC_RD_BITS_PER_WORD, &bits);
-  if (ret == -1)
-          pabort("can't get bits per word");
-
-  /*
-    * max speed hz
-    */
-  ret = ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &speed);
-  if (ret == -1)
-          pabort("can't set max speed hz");
-
-  ret = ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &speed);
-  if (ret == -1)
-          pabort("can't get max speed hz");
-
-  printf("spi mode: %d\n", mode);
-  printf("bits per word: %d\n", bits);
-  printf("max speed: %d Hz (%d KHz)\n", speed, speed/1000);
-  return fd;
-}
-
-static void transfer(int fd, uint8_t *tx, uint8_t *rx)
-{
-        int ret;
-        struct spi_ioc_transfer tr = {
-                .tx_buf = (unsigned long)tx,
-                .rx_buf = (unsigned long)rx,
-                .len = ARRAY_SIZE(tx),
-                .delay_usecs = delay,
-                .speed_hz = speed,
-                .bits_per_word = bits,
-        };
-
-        ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
-        if (ret < 1)
-                pabort("can't send spi message");
 }
 
 uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This is the algorithm that reads from a register in the ADE9078. The arguments are the MSB and LSB of the address of the register respectively. The values of the arguments are obtained from the list of functions above.

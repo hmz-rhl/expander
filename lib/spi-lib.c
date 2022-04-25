@@ -27,148 +27,79 @@
 #include <linux/spi/spidev.h>
 #include <sys/ioctl.h>
 
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
+static const char *device = "/dev/spidev1.1";
+static uint8_t mode;
+static uint8_t bits = 8;
+static uint32_t speed = 1000000;
+static uint16_t delay;
 
-int Read_spi_configuration(int fd, spi_config_t *config)
+static void pabort(const char *s)
 {
-	uint8_t  u8;
-	uint32_t u32;
-
-	if (ioctl(fd, SPI_IOC_RD_MODE, &u8) < 0) {
-		perror("SPI_IOC_RD_MODE");
-		return -1;
-	}
-	config->spi_mode = u8 & 0x03;
-	config->spi_ready = ((config->spi_mode & SPI_READY) ? 1 : 0);
-
-	if (ioctl(fd, SPI_IOC_RD_LSB_FIRST, &u8) < 0) {
-		perror("SPI_IOC_RD_LSB_FIRST");
-		return -1;
-	}
-	config->lsb_first = (u8 ? 1 : 0);
-
-	if (ioctl(fd, SPI_IOC_RD_BITS_PER_WORD, &u8) < 0) {
-		perror("SPI_IOC_RD_BITS_PER_WORD");
-		return -1;
-	}
-	config->bits_per_word = (u8 == 0 ? 8 : u8);
-
-	if (ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &u32) < 0) {
-		perror("SPI_IOC_RD_MAX_SPEED_HZ");
-		return -1;
-	}
-	config->spi_speed = u32;
-
-	return 0;
+        perror(s);
+        abort();
 }
 
+int  spi_init(){
 
+  int fd = open("/dev/spidev0.0",O_RDWR);
+  int ret = -1;
+  if (fd < 0)
+          pabort("can't open device");
 
-int Write_spi_configuration(int fd, spi_config_t *config)
-{
-	uint8_t  u8;
-	uint32_t u32;
+  /*
+    * spi mode
+    */
+  ret = ioctl(fd, SPI_IOC_WR_MODE, &mode);
+  if (ret == -1)
+          pabort("can't set spi mode");
 
-	u8 = config->spi_mode;
-	if (config->spi_ready == 1)
-		u8 |= SPI_READY;
-	if (ioctl(fd, SPI_IOC_WR_MODE, &u8) < 0) {
-		perror("SPI_IOC_WR_MODE");
-		return -1;
-	}
+  ret = ioctl(fd, SPI_IOC_RD_MODE, &mode);
+  if (ret == -1)
+          pabort("can't get spi mode");
 
-	u8 = (config->lsb_first ? 1 : 0);
-	if (ioctl(fd, SPI_IOC_WR_LSB_FIRST, &u8) < 0) {
-	perror("SPI_IOC_WR_LSB_FIRST");
-	return -1;
-	}
+  /*
+    * bits per word
+    */
+  ret = ioctl(fd, SPI_IOC_WR_BITS_PER_WORD, &bits);
+  if (ret == -1)
+          pabort("can't set bits per word");
 
-	u8 = config->bits_per_word;
-	if (ioctl(fd, SPI_IOC_WR_BITS_PER_WORD, &u8) < 0) {
-		perror("SPI_IOC_WR_BITS_PER_WORD");
-		return -1;
-	}
+  ret = ioctl(fd, SPI_IOC_RD_BITS_PER_WORD, &bits);
+  if (ret == -1)
+          pabort("can't get bits per word");
 
-	u32 = config->spi_speed;
-	if (ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &u32) < 0) {
-		perror("SPI_IOC_WR_MAX_SPEED_HZ");
-		return -1;
-	}
+  /*
+    * max speed hz
+    */
+  ret = ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &speed);
+  if (ret == -1)
+          pabort("can't set max speed hz");
 
-	return 0;
+  ret = ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &speed);
+  if (ret == -1)
+          pabort("can't get max speed hz");
+
+  printf("spi mode: %d\n", mode);
+  printf("bits per word: %d\n", bits);
+  printf("max speed: %d Hz (%d KHz)\n", speed, speed/1000);
+  return fd;
 }
 
-
-int Parse_spi_mode(const char *optarg, spi_config_t *config)
+static void transfer(int fd, uint8_t *tx, uint8_t *rx)
 {
-	if ((sscanf(optarg, "%d", &(config->spi_mode)) != 1)
-	 || (config->spi_mode < 0) || (config->spi_mode > 3)) {
-		fprintf(stderr, "Error: wrong SPI mode ([0-3]): %s\n", optarg);
-		return -1;
-	}
-	return 0;
-}
+        int ret;
+        struct spi_ioc_transfer tr = {
+                .tx_buf = (unsigned long)tx,
+                .rx_buf = (unsigned long)rx,
+                .len = ARRAY_SIZE(tx),
+                .delay_usecs = delay,
+                .speed_hz = speed,
+                .bits_per_word = bits,
+        };
 
-
-
-int Parse_lsb_first(const char *optarg, spi_config_t *config)
-{
-	if ((sscanf(optarg, "%d", &(config->lsb_first)) != 1)
-	 || (config->lsb_first < 0) || (config->lsb_first > 1)) {
-		fprintf(stderr, "Error: wrong LSB value ([0,1]): %s\n", optarg);
-		return -1;
-	}
-	return 0;
-}
-
-
-
-int Parse_spi_speed(const char *optarg, spi_config_t *config)
-{
-	if ((sscanf(optarg, "%d", &(config->spi_speed)) != 1)
-	 || (config->spi_speed < 0) || (config->spi_speed > 100000000)) {
-		fprintf(stderr, "Error: invalid SPI speed ([0-100000000]): %s\n", optarg);
-		return -1;
-	}
-	return 0;
-}
-
-
-
-int Parse_spi_ready(const char *optarg, spi_config_t *config)
-{
-	if ((sscanf(optarg, "%d", &(config->spi_ready)) != 1)
-	 || (config->spi_ready < 0) || (config->spi_ready > 1)) {
-		fprintf(stderr, "Error: wrong SPI-ready value ([0, 1]): %s\n", optarg);
-		return -1;
-	}
-	return 0;
-}
-
-
-
-int Parse_spi_bits_per_word(const char *optarg, spi_config_t *config)
-{
-	if ((sscanf(optarg, "%d", &(config->bits_per_word)) != 1)
-	 || (config->bits_per_word < 7)) {
-		fprintf(stderr, "Error: wrong bits-per-word value ([0, 1]): %s\n", optarg);
-		return -1;
-	}
-	return 0;
-}
-
-
-
-int Transfer_spi_buffers(int fd, void *tx_buffer, void *rx_buffer, unsigned long length)
-{
-	struct spi_ioc_transfer transfer;
-
-	transfer.rx_buf = rx_buffer;
-	transfer.tx_buf = tx_buffer;
-	transfer.len = length;
-
-	if (ioctl(fd, SPI_IOC_MESSAGE(1), transfer) < 0)
-		return -1;
-
-	return 0;
+        ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
+        if (ret < 1)
+                pabort("can't send spi message");
 }
