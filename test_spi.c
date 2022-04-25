@@ -49,8 +49,25 @@ int main(){
 	wiringPiSPIDataRW (0, data, 6);
 	expander_setAllPinsGPIO(exp);
 
-	printf("id bits : %04x\n", data);
+	if(data[2] & 0x01)
+		printf("ADE9004 : yes \n");
+	else{
+		printf("ADE9004 : no \n");
+	}
 
+	if((data[2] >> 20 )& 0x01)
+		printf("ADE9000 : yes \n");
+	else{
+		printf("ADE9000 : no \n");
+	}
+	
+	if((data[2] >> 21 & 0x01)
+		printf("ADE73370 : yes \n");
+	else{
+		printf("ADE73370 : no \n");
+	}
+
+	printf("Done ! \n");
 	close(fd);
 
 	return EXIT_SUCCESS;
