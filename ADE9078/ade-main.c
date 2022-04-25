@@ -151,8 +151,8 @@ uint32_t ADE9078_spiRead32(uint16_t address,expander_t *exp) { //This is the alg
       printf("bcm2835_spi_begin failed. Are you running as root??\n");
       exit(EXIT_FAILURE);
     }
-    expander_printGPIO(exp);
     expander_resetOnlyPinSetOthersGPIO(exp, 5);
+    expander_printGPIO(exp);
     bcm2835_spi_transfer(commandHeader1); //Send MSB
     bcm2835_spi_transfer(commandHeader2); //Send MSB
     one = bcm2835_spi_transfer(WRITE);  //dummy write MSB, read out MSB
@@ -224,7 +224,7 @@ int main(){
     
 
     printf("version %04x\n",ADE9078_getVersion(exp));
-    printf("tension %04x\n",ADE9078_getInstVoltageA(exp));
+    printf("tension %dV\n",ADE9078_getInstVoltageA(exp));
 
 
     bcm2835_close();
