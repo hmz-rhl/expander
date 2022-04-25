@@ -92,10 +92,13 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
   uint8_t rx_data[128];
 
     expander_resetOnlyPinSetOthersGPIO(exp, 5);
+    expander_printGPIO(exp);
     sleep(10);
-    Transfer_spi_buffers(fd, tx_data, rx_data,4);
+    transfer(fd, tx_data, rx_data);
     sleep(10);
     expander_setPinGPIO(exp,5);
+    expander_printGPIO(exp);
+
 
   #ifdef RASPBERRYPIZ //Arduino SPI Routine
 
@@ -210,7 +213,6 @@ int  spi_init(){
 }
 
 
-
 static void transfer(int fd, uint8_t *tx, uint8_t *rx)
 {
         int ret;
@@ -239,12 +241,12 @@ int main(){
 
   int fd = spi_init();
 
-  // expander_t *exp = expander_init(0x26);
-  // ADE9078_getVersion(exp, fd, &spi_config);  
+  expander_t *exp = expander_init(0x26);
+  ADE9078_getVersion(exp, fd, &spi_config);  
   
-  char rx_data[20] = "";
-  transfer(fd, "1", rx_data);
-  printf("received : %s\n", rx_data);
+  //char rx_data[20] = "";
+  //transfer(fd, "1", rx_data);
+  //printf("received : %s\n", rx_data);
 
   close(fd);
 
