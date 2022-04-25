@@ -235,14 +235,14 @@ static void transfer(int fd, uint8_t *tx, uint8_t *rx)
         puts("");
 }
 
-int main()
-{
-  int fd =spi_init();
+int main(){
+
+  int fd = spi_init();
 
   // expander_t *exp = expander_init(0x26);
   // ADE9078_getVersion(exp, fd, &spi_config);  
   
-  char rx_data[20] = "YO";
+  char rx_data[20] = "";
   transfer(fd, "1", rx_data);
   printf("received : %s\n", rx_data);
 
