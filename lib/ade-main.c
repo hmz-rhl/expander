@@ -294,7 +294,7 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
      printf(" ADE9078::spiRead16 function started \n");
     #endif
    //Prepare the 12 bit command header from the inbound address provided to the function
-    expander_setAllGPIO(exp);
+    expander_setAllPinsGPIO(exp);
    uint16_t temp_address, readval_unsigned;
    temp_address = (((address << 4) & 0xFFF0)+8); //shift address  to align with cmd packet, convert the 16 bit address into the 12 bit command header. + 8 for isRead versus write
    uint8_t commandHeader1 = functionBitVal(temp_address, 1); //lookup and return first byte (MSB) of the 12 bit command header, sent first
