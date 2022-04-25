@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 {
 	int ret = 0;
 	int fd;
-    uint8_t tx[] = "Hamza";
+    uint8_t tx[] = "Hamzaaaaaaa";
     uint8_t rx[ARRAY_SIZE(tx)] = {0, }; 
 
 	//parse_opts(argc, argv);
