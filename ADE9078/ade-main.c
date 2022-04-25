@@ -86,7 +86,7 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp) { //This is the al
     expander_setAllPinsGPIO(exp);
 
    uint16_t temp_address, readval_unsigned;
-   temp_address = (((address << 4) & 0xFFF0)+8); //shift address  to align with cmd packet, convert the 16 bit address into the 12 bit command header. + 8 for isRead versus write
+   temp_address = (((address << 4) & 0xFFF0)+ 8); //shift address  to align with cmd packet, convert the 16 bit address into the 12 bit command header. + 8 for isRead versus write
    uint8_t commandHeader1 = functionBitVal(temp_address, 1); //lookup and return first byte (MSB) of the 12 bit command header, sent first
    uint8_t commandHeader2 = functionBitVal(temp_address, 0); //lookup and return second byte (LSB) of the 12 bit command header, sent second
 
@@ -536,6 +536,37 @@ int main(){
     expander_setPinGPIO(exp1, 0);
     sleep(2);
     expander_printGPIO(exp1);
+
+
+    if (!bcm2835_init())
+    {
+      printf("bcm2835_init failed. Are you running as root??\n");
+      exit(EXIT_FAILURE);
+    }
+
+    if (!bcm2835_spi_begin())
+    {
+      printf("bcm2835_spi_begin failed. Are you running as root??\n");
+      exit(EXIT_FAILURE);
+    }
+    bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);      // The default
+    bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);                   // The default
+    bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_65536); // The default
+    //bcm2835_spi_chipSelect(BCM2835_SPI_CS0);                      // The default
+    //bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW);      // the default
+
+    uint8_t tx[6];
+    uint8_t rx[4];
+
+    expander_resetOnlyPinSetOthersGPIO(exp, 5);
+    // bcm2835_spi_write(commandHeader2); //Send MSB
+    // bcm2835_spi_write(commandHeader1); //Send MSB
+    // one = bcm2835_spi_transfer(WRITE);  //dummy write MSB, read out MSB
+    // two = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
+      bcm2835_spi_transfernb(tx, rx, 6);
+      one = rx[0];  //dummy write MSB, read out MSB
+      two = rx[1];  //dummy write LSB, read out LSB
+
 
     printf("version %04x\n",ADE9078_getVersion(exp2));
     printf("tension %d\n",ADE9078_getInstVoltageA(exp2));
