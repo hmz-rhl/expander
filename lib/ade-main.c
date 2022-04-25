@@ -134,7 +134,7 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
 
 int main(){
 
-    expander_t *exp = expander_init();
+    expander_t *exp = expander_init(0x27);
     //spi_init();
     // uint8_t send_data = 0x23;
     // uint8_t read_data = bcm2835_spi_transfer(send_data);
