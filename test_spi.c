@@ -61,7 +61,7 @@ int main(){
 		printf("ADE9000 : no \n");
 	}
 	
-	if((data[2] >> 21 & 0x01)
+	if((data[2] >> 21) & 0x01)
 		printf("ADE73370 : yes \n");
 	else{
 		printf("ADE73370 : no \n");
