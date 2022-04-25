@@ -155,7 +155,7 @@ int main(){
   // uint16_t rx = ADE9078_getVersion(exp, fd);  
   // printf("0x%04x\n", rx);
   char rx_data[20] = "";
-  transfer(fd, "wsh trankil", rx_data);
+  transfer(fd, "wshtrankil", rx_data);
   printf("received : %s\n", rx_data);
 
   close(fd);
