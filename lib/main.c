@@ -74,7 +74,7 @@
 
 int main()
 {
-    expander_t *e = expander_init(0x26);
+    expander_t *e = expander_init(0x27);
     
 
     expander_printGPIO(e);
