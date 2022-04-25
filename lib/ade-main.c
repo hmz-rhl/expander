@@ -154,7 +154,7 @@ int main()
     bits_per_word = 8; // [7...] (-1 when not configured).
     spi_speed = 1000000;     // 0 when not configured.
     spi_ready = 1;     // {0,1}  (-1 when not configured).
-  }
+  };
   expander_t *exp = expander_init(0x26);
   ADE9078_getVersion(exp, fd);
 
