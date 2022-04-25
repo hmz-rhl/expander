@@ -286,9 +286,7 @@ int SpiClosePort (int fd)
 // }
 
 
-uint8_t ADE9078_getVersion(){
-	return ADE9078_spiRead16(VERSION_16);
-}
+
 
 uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This is the algorithm that reads from a register in the ADE9078. The arguments are the MSB and LSB of the address of the register respectively. The values of the arguments are obtained from the list of functions above.
     #ifdef ADE9078_VERBOSE_DEBUG
@@ -369,7 +367,9 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
 	return readval_unsigned;
 }
 
-
+uint8_t ADE9078_getVersion(){
+	return ADE9078_spiRead16(VERSION_16);
+}
 
 int main()
 {
