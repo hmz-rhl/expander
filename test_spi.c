@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
 	printf("max speed: %d Hz (%d KHz)\n", speed, speed/1000);
 
 	transfer(fd,rx,tx);
-
+	printf("recu : %s\n",tx);
 	close(fd);
 
 	return ret;
