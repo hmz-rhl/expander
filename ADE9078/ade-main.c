@@ -223,7 +223,7 @@ int main(){
     
 
     printf("version %04x\n",ADE9078_getVersion(exp));
-    printf("version %04x\n",getInstVoltageA(exp));
+    printf("version %04x\n",ADE9078_getInstVoltageA(exp));
 
 
     bcm2835_close();
