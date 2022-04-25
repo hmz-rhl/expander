@@ -51,7 +51,7 @@ uint8_t functionBitVal(uint16_t addr, uint8_t byteVal)
   return x;
 }
 
-uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd, struct spi_ioc_transfer *transfer) { //This is the algorithm that reads from a register in the ADE9078. The arguments are the MSB and LSB of the address of the register respectively. The values of the arguments are obtained from the list of functions above.
+uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd, spi_config_t *transfer) { //This is the algorithm that reads from a register in the ADE9078. The arguments are the MSB and LSB of the address of the register respectively. The values of the arguments are obtained from the list of functions above.
     #ifdef ADE9078_VERBOSE_DEBUG
      printf(" ADE9078::spiRead16 function started \n");
     #endif
@@ -140,8 +140,8 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd, struct spi
 }
 
 
-uint8_t ADE9078_getVersion(expander_t *exp, int fd, struct spi_ioc_transfer *transfer){
-	return ADE9078_spiRead16(VERSION_16, exp, fd,struct spi_ioc_transfer *transfer);
+uint8_t ADE9078_getVersion(expander_t *exp, int fd, spi_config_t *transfer){
+	return ADE9078_spiRead16(VERSION_16, exp, fd,spi_config_t *transfer);
 }
 
 int main()
