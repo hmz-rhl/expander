@@ -8,6 +8,9 @@
 #include <getopt.h>
 #include <fcntl.h>
 
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
+
+
 
 #define VERSION_16 0x4FE //Reset: 0x0040 Access: R
 
@@ -18,6 +21,12 @@ int spi_cs1_fd;				//file descriptor for the SPI device
 unsigned char spi_mode;
 unsigned char spi_bitsPerWord;
 unsigned int spi_speed;
+
+static const char *device = "/dev/spidev1.1";
+static uint8_t mode;
+static uint8_t bits = 8;
+static uint32_t speed = 500000;
+static uint16_t delay;
 
 const uint8_t WRITE = 0b00000000; //This value tells the ADE9078 that data is to be written to the requested register.
 const uint8_t READ = 0b10000000;  //This value tells the ADE9078 that data is to be read from the requested register.
@@ -144,26 +153,88 @@ uint8_t ADE9078_getVersion(expander_t *exp, int fd){
 	return ADE9078_spiRead16(VERSION_16, exp, fd);
 }
 
+void spi_init(){
+
+  int fd = open("/dev/spidev0.0",O_RDWR);
+  if (fd < 0)
+          pabort("can't open device");
+
+  /*
+    * spi mode
+    */
+  ret = ioctl(fd, SPI_IOC_WR_MODE, &mode);
+  if (ret == -1)
+          pabort("can't set spi mode");
+
+  ret = ioctl(fd, SPI_IOC_RD_MODE, &mode);
+  if (ret == -1)
+          pabort("can't get spi mode");
+
+  /*
+    * bits per word
+    */
+  ret = ioctl(fd, SPI_IOC_WR_BITS_PER_WORD, &bits);
+  if (ret == -1)
+          pabort("can't set bits per word");
+
+  ret = ioctl(fd, SPI_IOC_RD_BITS_PER_WORD, &bits);
+  if (ret == -1)
+          pabort("can't get bits per word");
+
+  /*
+    * max speed hz
+    */
+  ret = ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &speed);
+  if (ret == -1)
+          pabort("can't set max speed hz");
+
+  ret = ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &speed);
+  if (ret == -1)
+          pabort("can't get max speed hz");
+
+  printf("spi mode: %d\n", mode);
+  printf("bits per word: %d\n", bits);
+  printf("max speed: %d Hz (%d KHz)\n", speed, speed/1000);
+  return fd;
+}
+
+
+
+static void transfer(int fd, uint8_t *tx, uint8_t *rx)
+{
+        int ret;
+        struct spi_ioc_transfer tr = {
+                .tx_buf = (unsigned long)tx,
+                .rx_buf = (unsigned long)rx,
+                .len = ARRAY_SIZE(tx),
+                .delay_usecs = delay,
+                .speed_hz = speed,
+                .bits_per_word = bits,
+        };
+
+        ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
+        if (ret < 1)
+                pabort("can't send spi message");
+
+        for (ret = 0; ret < ARRAY_SIZE(tx); ret++) {
+                if (!(ret % 6))
+                        puts("");
+                printf("%.2X ", rx[ret]);
+        }
+        puts("");
+}
+
 int main()
 {
-  int fd = open("/dev/spidev0.0",O_RDWR);
+  int fd =init();
 
-  spi_config_t spi_config = {
-    0,         // mode [0-3]  (-1 when not configured).
-    0,         // lsb_first {0,1}  (-1 when not configured).
-    8,         // [7...] bit per words(-1 when not configured).
-    1000000,   // frequency 0 when not configured.
-    1,         // spi_ready{0,1}  (-1 when not configured).
-  };
   // expander_t *exp = expander_init(0x26);
-  // ADE9078_getVersion(exp, fd, &spi_config);
-
-  Read_spi_configuration(fd, &spi_config);
-  Write_spi_configuration(fd, &spi_config);
+  // ADE9078_getVersion(exp, fd, &spi_config);  
   
-  char rx_data[20] = "";
-  Transfer_spi_buffers(fd, "1", rx_data,3);
+  char rx_data[20] = "YO";
+  transfer(fd, "1", rx_data);
   printf("received : %s\n", rx_data);
+  
   close(fd);
 
 
