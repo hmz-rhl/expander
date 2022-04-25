@@ -156,7 +156,7 @@ struct LastReads{
   
 };
 
-struct InitializationSettings {
+typedef struct {
   // All gains are 2 bits. Options: 1, 2, 3, 4
   uint8_t vAGain;
   uint8_t vBGain;
@@ -173,7 +173,7 @@ struct InitializationSettings {
 
   uint8_t vConsel;
   uint8_t iConsel;
-};
+}InitializationSettings;
 
 int SpiOpenPort (int spi_device);
 int SpiClosePort (int spi_device);
