@@ -69,7 +69,9 @@ void expander_labelize(expander_t* exp){
         strcpy(exp->label[3],"LOCK_D*----------->");
         strcpy(exp->label[4],"TYPE-E/F_ON*------>");
         strcpy(exp->label[5],"TYPE-2_L2L3_ON*--->");
-        strcpy(exp->label[7],"TYPE-2_NL1_ON*---->");
+        strcpy(exp->label[6],"TYPE-2_NL1_ON*---->");
+        strcpy(exp->label[6],"------------------>");
+
     }
     else{
 
