@@ -72,9 +72,9 @@
 
 
 
-int main()
-{
-    expander_t *e = expander_init(0x27);
+int main(){
+    
+    expander_t *e = expander_init(0x26);
     
 
     expander_printGPIO(e);
@@ -85,7 +85,7 @@ int main()
     expander_closeAndFree(e);
    
     //printf("%s\n",__func__);
-   //test_exp1();
+    //test_exp1();
     //test_exp2();
 
     return 0;
