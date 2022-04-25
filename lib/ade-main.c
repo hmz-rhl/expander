@@ -208,7 +208,11 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
   uint8_t rx_data[128];
 
     expander_resetOnlyPinSetOthersGPIO(exp, 5);
+    sleep(10);
     SpiWriteAndRead(0, tx_data, rx_data,16,1);
+    sleep(10);
+    expander_setPinGPIO(exp,5);
+
   #ifdef RASPBERRYPIZ //Arduino SPI Routine
 
     int status = SpiOpenPort(0);
