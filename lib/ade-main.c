@@ -147,7 +147,7 @@ int main(){
 
   int fd = spi_init();
 
-  expander_t *exp = expander_init(0x26);
+  expander_t *exp = expander_init(0x27);
   uint16_t rx = ADE9078_getVersion(exp, fd);  
   printf("0x%04x\n", rx);
   //char rx_data[20] = "";
