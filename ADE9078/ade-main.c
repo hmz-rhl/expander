@@ -112,10 +112,10 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp) { //This is the al
     //bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW);      // the default
 
       expander_resetOnlyPinSetOthersGPIO(exp, 5);
-      bcm2835_spi_transfer(commandHeader1); //Send MSB
       bcm2835_spi_transfer(commandHeader2); //Send MSB
-      one = bcm2835_spi_transfer(WRITE);  //dummy write MSB, read out MSB
-      two = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
+      bcm2835_spi_transfer(commandHeader1); //Send MSB
+      one = bcm2835_spi_write(WRITE);  //dummy write MSB, read out MSB
+      two = bcm2835_spi_write(WRITE);  //dummy write LSB, read out LSB
       expander_setPinGPIO(exp,5);
       bcm2835_spi_end();
 
@@ -134,14 +134,14 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp) { //This is the al
 
     #ifdef ADE9078_VERBOSE_DEBUG
      printf(" spiRead16 function details: \n");
-     printf(" Command Header: \n");
-     printf("%02x\n",commandHeader1);
+     printf(" Command Header: ");
+     printf("%02x",commandHeader1);
      printf("%02x\n",commandHeader2);
      printf(" Address Byte 1(MSB)[HEX]: \n");
      printf(" Returned bytes (1(MSB) and 2) [HEX]: \n");
      printf("%02x", one); //print MSB
-     printf("\n");
-     printf("%02x\n", two);  //print LSB
+     printf("");
+     printf("%02x", two);  //print LSB
      printf(" spiRead16 function completed \n");
     #endif
 
@@ -185,10 +185,10 @@ uint32_t ADE9078_spiRead32(uint16_t address,expander_t *exp) { //This is the alg
     expander_printGPIO(exp);
     bcm2835_spi_transfer(commandHeader1); //Send MSB
     bcm2835_spi_transfer(commandHeader2); //Send MSB
-    one = bcm2835_spi_transfer(WRITE);  //dummy write MSB, read out MSB
-    two = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
-    three = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
-    four = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
+    one = bcm2835_spi_write(WRITE);  //dummy write MSB, read out MSB
+    two = bcm2835_spi_write(WRITE);  //dummy write LSB, read out LSB
+    three = bcm2835_spi_write(WRITE);  //dummy write LSB, read out LSB
+    four = bcm2835_spi_write(WRITE);  //dummy write LSB, read out LSB
     expander_setPinGPIO(exp,5);
     bcm2835_spi_end();
 
@@ -264,10 +264,10 @@ void ADE9078_spiWrite32(uint16_t address, uint32_t data,expander_t *exp) {
     expander_printGPIO(exp);
     bcm2835_spi_transfer(commandHeader1); //Send MSB
     bcm2835_spi_transfer(commandHeader2); //Send MSB
-    bcm2835_spi_transfer(byteFour);  //dummy write MSB, read out MSB
-    bcm2835_spi_transfer(byteThree);  //dummy write LSB, read out LSB
-    bcm2835_spi_transfer(byteTwo);  //dummy write LSB, read out LSB
-    bcm2835_spi_transfer(byteOne);  //dummy write LSB, read out LSB
+    bcm2835_spi_write(byteFour);  //dummy write MSB, read out MSB
+    bcm2835_spi_write(byteThree);  //dummy write LSB, read out LSB
+    bcm2835_spi_write(byteTwo);  //dummy write LSB, read out LSB
+    bcm2835_spi_write(byteOne);  //dummy write LSB, read out LSB
     expander_setPinGPIO(exp,5);
     bcm2835_spi_end();
 	
@@ -321,8 +321,8 @@ if (!bcm2835_init())
     expander_printGPIO(exp);
     bcm2835_spi_transfer(commandHeader1); //Send MSB
     bcm2835_spi_transfer(commandHeader2); //Send MSB
-    bcm2835_spi_transfer(byteTwo);  //dummy write LSB, read out LSB
-    bcm2835_spi_transfer(byteOne);  //dummy write LSB, read out LSB
+    bcm2835_spi_write(byteTwo);  //dummy write LSB, read out LSB
+    bcm2835_spi_write(byteOne);  //dummy write LSB, read out LSB
     expander_setPinGPIO(exp,5);
     bcm2835_spi_end();
 
@@ -507,7 +507,7 @@ int main(){
     ADE9078_initialize(exp2);
     //spi_init();
     // uint8_t send_data = 0x23;
-    // uint8_t read_data = bcm2835_spi_transfer(send_data);
+    // uint8_t read_data = bcm2835_spi_write(send_data);
     // printf("Sent to SPI: 0x%02X. Read back from SPI: 0x%02X.\n", send_data, read_data);
     // if (send_data != read_data)
     //   printf("Do you have the loopback from MOSI to MISO connected?\n");
@@ -520,7 +520,7 @@ int main(){
 
     printf("version %04x\n",ADE9078_getVersion(exp2));
     printf("tension %d\n",ADE9078_getInstVoltageA(exp2));
-    printf("tension %lf\n",ADE9078_getPowerFactorA(exp2));
+    printf("power Factor %lf\n",ADE9078_getPowerFactorA(exp2));
 
     expander_resetPinGPIO(exp1, 0);
 
