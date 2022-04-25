@@ -157,9 +157,10 @@ uint8_t ADE9078_getVersion(expander_t *exp, int fd){
 	return ADE9078_spiRead16(VERSION_16, exp, fd);
 }
 
-void spi_init(){
+int  spi_init(){
 
   int fd = open("/dev/spidev0.0",O_RDWR);
+  int ret = -1;
   if (fd < 0)
           pabort("can't open device");
 
