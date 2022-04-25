@@ -255,17 +255,17 @@ void ADE9078_spiWrite32(uint16_t address, uint32_t data,expander_t *exp) {
 	
 
     #ifdef ADE9078_VERBOSE_DEBUG
-     printf(" ADE9078::spiRead32 function details: \n");
-     printf("Command Header: " + commandHeader1 + commandHeader2);
-     printf(" Wrote bytes (4(MSB) to 1)[BINARY]: \n");
-     printf(byteFour, BIN);
-     printf(" \n");
-     printf(byteThree, BIN);
-     printf(" \n");
-     printf(byteTwo, BIN);
-     printf(" \n");
-     printf(byteOne, BIN);
-     printf(" ADE9078::spiRead32 function completed \n");
+    //  printf(" ADE9078::spiRead32 function details: \n");
+    //  printf("Command Header: " + commandHeader1 + commandHeader2);
+    //  printf(" Wrote bytes (4(MSB) to 1)[BINARY]: \n");
+    //  printf(byteFour, BIN);
+    //  printf(" \n");
+    //  printf(byteThree, BIN);
+    //  printf(" \n");
+    //  printf(byteTwo, BIN);
+    //  printf(" \n");
+    //  printf(byteOne, BIN);
+    //  printf(" ADE9078::spiRead32 function completed \n");
     #endif
 
   }
@@ -303,15 +303,15 @@ if (!bcm2835_init())
     bcm2835_spi_end();
 
   #ifdef ADE9078_VERBOSE_DEBUG
-   printf(" ADE9078::spiRead32 function details: \n");
-   printf("Command Header: \n");
-   printf("%d \n",commandHeader1);
-   printf("%d \n",commandHeader2);
-   printf(" Wrote bytes (2(MSB) to 1)[BINARY]: \n");
-   printf("0x %02x \n",byteTwo);
-   printf(" \n");
-   printf("0x %02x \n",byteOne);
-   printf(" ADE9078::spiRead32 function completed \n");
+  //  printf(" ADE9078::spiRead32 function details: \n");
+  //  printf("Command Header: \n");
+  //  printf("%d \n",commandHeader1);
+  //  printf("%d \n",commandHeader2);
+  //  printf(" Wrote bytes (2(MSB) to 1)[BINARY]: \n");
+  //  printf("0x %02x \n",byteTwo);
+  //  printf(" \n");
+  //  printf("0x %02x \n",byteOne);
+  //  printf(" ADE9078::spiRead32 function completed \n");
   #endif
 }
 
