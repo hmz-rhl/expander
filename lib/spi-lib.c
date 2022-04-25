@@ -163,9 +163,9 @@ int Transfer_spi_buffers(int fd, void *tx_buffer, void *rx_buffer, unsigned long
 {
 	struct spi_ioc_transfer transfer;
 
-	transfer->rx_buf = (unsigned long)rx_buffer;
-	transfer->tx_buf = (unsigned long)tx_buffer;
-	transfer->len = length;
+	transfer.rx_buf = (unsigned long)rx_buffer;
+	transfer.tx_buf = (unsigned long)tx_buffer;
+	transfer.len = length;
 
 	if (ioctl(fd, SPI_IOC_MESSAGE(1), transfer) < 0)
 		return -1;
