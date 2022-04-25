@@ -222,7 +222,7 @@ int main(){
 
     
 
-    printf("version %04x\n",versionADE9078_getVersion(exp));
+    printf("version %04x\n",ADE9078_getVersion(exp));
     printf("version %04x\n",getInstVoltageA(exp));
 
 
