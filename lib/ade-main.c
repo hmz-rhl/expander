@@ -32,6 +32,12 @@ static uint8_t bits = 8;
 static uint32_t speed = 500000;
 static uint16_t delay;
 
+static void pabort(const char *s)
+{
+        perror(s);
+        abort();
+}
+
 const uint8_t WRITE = 0b00000000; //This value tells the ADE9078 that data is to be written to the requested register.
 const uint8_t READ = 0b10000000;  //This value tells the ADE9078 that data is to be read from the requested register.
 
