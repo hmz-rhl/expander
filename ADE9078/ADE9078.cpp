@@ -525,19 +525,19 @@ void ADE9078::initialize(){
 
   #ifdef ADE9078_VERBOSE_DEBUG
    printf(" ADE9078:initialize function completed. Showing values and registers written \n");
-   printf(" APGAIN: \n");
-   printf(is->powerAGain);
-   printf(" BPGAIN: \n");
-   printf(is->powerBGain);
-   printf(" CPGAIN: \n");
-   printf(is->powerCGain);
-   printf(" PGA_GAIN: \n");
-   printf(pgaGain);
-   printf(" VLEVEL: \n");
-   printf(vLevelData);
-   printf(" CONFIG0-3, ALL 0'S\n");
-   printf(" ACCMODE: \n");
-   printf(settingsACCMODE);
+   printf(" APGAIN: ");
+   printf("%d \n",is->powerAGain);
+   printf(" BPGAIN: ");
+   printf("%d \n",is->powerBGain);
+   printf(" CPGAIN: ");
+   printf("%d \n",is->powerCGain);
+   printf(" PGA_GAIN: ");
+   printf("%d \n",is->pgaGain);
+   printf(" VLEVEL: ");
+   printf("%d \n",is->vLevelData);
+   printf(" CONFIG0-3, ALL 0'Sn \n");
+   printf(" ACCMODE: ");
+   printf("%d \n",is->settingsACCMODE);
    printf(" RUN: \n");
    printf(1);
    printf(" EP_CFG: \n");
@@ -607,8 +607,8 @@ void ADE9078::configureWFB(){
 		writeValue = writeValue & ~(0b1<<i);
 	}
 
-	printf("writing to WFB_CFG: \n");
-	printf(writeValue,BIN);
+	printf("writing to WFB_CFG: ");
+	printf("%d  \n",writeValue);
 	spiWrite16(WFB_CFG_16, writeValue);
 	//printf("WFB configured\n");
 }
@@ -713,11 +713,11 @@ void ADE9078::spiBurstResampledWFB(uint16_t startingAddress)
 	digitalWrite(_SS, LOW);  //Enable data transfer by bringing SS line LOW
 
 	printf("StartingAddress: \n");
-	printf(startingAddress, HEX);
+	printf("0x %04x \n",startingAddress);
 	printf(" | \n");
 	printf("Transfering commandheader: \n");
 
-	printf(commandHeader, HEX);
+	printf("0x%04x \n ", commandHeader);
 	printf(" | \n");
 	SPI.transfer16(commandHeader);
 
@@ -773,12 +773,12 @@ void ADE9078::spiBurstResampledWFB_Avonly(uint16_t startingAddress)
 	digitalWrite(_SS, LOW);  //Enable data transfer by bringing SS line LOW
 
 	printf("StartingAddress: \n");
-	printf(startingAddress, HEX);
+	printf("0x %04x \n",startingAddress);
 	printf(" | \n");
 	printf("Transfering commandheader: \n");
 
 	uint16_t commandHeader = ((startingAddress << 4)& 0xFFF0) + 8;
-	printf(commandHeader, HEX);
+	printf("0x %04x \n",commandHeader);
 	printf(" | \n");
 
 	//printf("command header about to be sent\n");
@@ -944,13 +944,13 @@ uint16_t ADE9078::spiRead16(uint16_t address) { //This is the algorithm that rea
     #ifdef ADE9078_VERBOSE_DEBUG
      printf(" ADE9078::spiRead16 function details: \n");
      printf(" Command Header: \n");
-     printf(commandHeader1, BIN);
-     printf(commandHeader2, BIN);
+     printf("0x %02x \n",commandHeader1);
+     printf("0x %02x \n",commandHeader2);
      printf(" Address Byte 1(MSB)[HEX]: \n");
-     printf(" Returned bytes (1(MSB) and 2) [HEX]: \n");
-     printf("%p", HEX); //print MSB
+     printf(" Returned bytes (1(MSB) and 2) [HEX]: ");
+     printf("%p \n", one); //print MSB // PAS SURE DU TOUT
      printf(" \n");
-     printf(two, HEX);  //print LSB
+     printf("0x %02x \n",two);  //print LSB
      printf(" ADE9078::spiRead16 function completed \n");
     #endif
 
