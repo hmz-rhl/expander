@@ -464,7 +464,7 @@ void ADE9078_initialize(expander_t *exp){
   #endif
 }
 
-double decimalize(uint32_t input, double factor, double offset, bool absolutevalue) //This function converts to floating point with an optional linear calibration (y=mx+b) by providing input in the following way as arguments (rawinput, gain, offset)
+double decimalize(uint32_t input, double factor, double offset, uint8_t absolutevalue) //This function converts to floating point with an optional linear calibration (y=mx+b) by providing input in the following way as arguments (rawinput, gain, offset)
 {
 	#ifdef ADE9078_VERBOSE_DEBUG
 	Serial.print(" ADE9078::calibration (decimalize) and double type conversion function executed, RAW input: ");
@@ -486,7 +486,7 @@ double decimalize(uint32_t input, double factor, double offset, bool absoluteval
 double ADE9078_getPowerFactorA(expander_t *exp){
 	int16_t value=0;
 	value=ADE9078_spiRead16(PFA_16, exp);
-	double decimal = decimalize(value, 1.0, 0.0,0); //convert to double with calibration factors specified (default values in place)
+	double decimal = decimalize(value, 1.0, 0.0, 0); //convert to double with calibration factors specified (default values in place)
 	return (decimal);
 }
 
