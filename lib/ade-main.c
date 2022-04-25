@@ -161,9 +161,9 @@ int main()
   Read_spi_configuration(fd, &spi_config);
   Write_spi_configuration(fd, &spi_config);
   
-  char rx_data[20];
+  char rx_data[20] = "";
   Transfer_spi_buffers(fd, "HI", rx_data,4);
-  printf("received : %s", rx_data);
+  printf("received : %s\n", rx_data);
   close(fd);
 
 
