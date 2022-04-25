@@ -48,7 +48,7 @@ static void pabort(const char *s)
 const uint8_t WRITE = 0b00000000; //This value tells the ADE9078 that data is to be written to the requested register.
 const uint8_t READ = 0b10000000;  //This value tells the ADE9078 that data is to be read from the requested register.
 
-InitializationSettings* is ={ 0,};
+
 //////////
 // Init SPIdev
 //////////
@@ -325,7 +325,7 @@ void ADE9078_initialize(expander_t *exp){
   #ifdef ADE9078_VERBOSE_DEBUG
    printf(" ADE9078:initialize function started\n"); //wiring configuration defined in VCONSEL and ICONSEL registers init. in this function
   #endif
-
+  InitializationSettings is = { 0,};
     /* //For reference, the following registers are written to on bootup for the ADE9000 (from ADE9000 Arduino Library Sample Code, note these ICs are similar but do not have identical functionality!)
    SPI_Write_16(ADDR_PGA_GAIN,ADE9000_PGA_GAIN);
  	 SPI_Write_32(ADDR_CONFIG0,ADE9000_CONFIG0);
@@ -378,19 +378,19 @@ void ADE9078_initialize(expander_t *exp){
   //   printf("WARNING, POWER UP MAY NOT BE FINISHED\n");
   // }
    // #2: Configure Gains
-   ADE9078_spiWrite32(APGAIN_32, is->powerAGain, exp);
-   ADE9078_spiWrite32(BPGAIN_32, is->powerBGain, exp);
-   ADE9078_spiWrite32(CPGAIN_32, is->powerCGain, exp);
+   ADE9078_spiWrite32(APGAIN_32, is.powerAGain, exp);
+   ADE9078_spiWrite32(BPGAIN_32, is.powerBGain, exp);
+   ADE9078_spiWrite32(CPGAIN_32, is.powerCGain, exp);
 
-   uint16_t pgaGain = (is->vCGain << 12) + (is->vBGain << 10) + (is->vCGain << 8) +   // first 2 reserved, next 6 are v gains, next 8 are i gains.
-                      (is->iNGain << 6) + (is->iCGain << 4) + (is->iBGain << 2) + is->iAGain;
+   uint16_t pgaGain = (is.vCGain << 12) + (is.vBGain << 10) + (is.vCGain << 8) +   // first 2 reserved, next 6 are v gains, next 8 are i gains.
+                      (is.iNGain << 6) + (is.iCGain << 4) + (is.iBGain << 2) + is.iAGain;
    ADE9078_spiWrite16(PGA_GAIN_16, pgaGain, exp);
    uint32_t vLevelData = 0x117514;  // #5 : Write VLevel 0x117514
    ADE9078_spiWrite32(VLEVEL_32, vLevelData, exp); // #5
 
   ADE9078_spiWrite16(CONFIG0_32, 0x00000000, exp);  // #7:  If current transformers are used, INTEN and ININTEN in the CONFIG0 register must = 0
   // Table 24 to determine how to configure ICONSEL and VCONSEL in the ACCMODE register
-  uint16_t settingsACCMODE = (is->iConsel << 6) + (is->vConsel << 5);
+  uint16_t settingsACCMODE = (is.iConsel << 6) + (is.vConsel << 5);
 
 	ADE9078_spiWrite16(ACCMODE_16, settingsACCMODE, exp); // chooses the wiring mode (delta/Wye, Blondel vs. Non-blondel) to push up in initial config, Need the other if statements for all configuration modes
 
