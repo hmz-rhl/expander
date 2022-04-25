@@ -1,16 +1,31 @@
 #include "expander-i2c.h"
-#include "spi-lib.h"
 #include "bcm2835.h"
 
 
+#include <stdint.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <getopt.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <linux/types.h>
+#include <linux/spi/spidev.h>
+
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
 
 
 #define VERSION_16 0x4FE //Reset: 0x0040 Access: R
 
-//#define ADE9078_VERBOSE_DEBUG
+#define ADE9078_VERBOSE_DEBUG
 
 
+static void pabort(const char *s)
+{
+        perror(s);
+        abort();
+}
 
 const uint8_t WRITE = 0b00000000; //This value tells the ADE9078 that data is to be written to the requested register.
 const uint8_t READ = 0b10000000;  //This value tells the ADE9078 that data is to be read from the requested register.
@@ -45,7 +60,6 @@ uint8_t functionBitVal(uint16_t addr, uint8_t byteVal)
 }
 
 uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This is the algorithm that reads from a register in the ADE9078. The arguments are the MSB and LSB of the address of the register respectively. The values of the arguments are obtained from the list of functions above.
-    
     #ifdef ADE9078_VERBOSE_DEBUG
      printf(" ADE9078::spiRead16 function started \n");
     #endif
@@ -58,54 +72,27 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
 
     uint8_t one, two; //holders for the read values from the SPI Transfer
 
-  uint8_t tx_data[4];
-  tx_data[0] = commandHeader1;
-  tx_data[1] = commandHeader2;
 
-
-  uint8_t rx_data[128];
-
-    expander_resetOnlyPinSetOthersGPIO(exp, 2);
     expander_printGPIO(exp);
-    sleep(10);
-    transfer(fd, tx_data, rx_data);
-    sleep(10);
-    tx_data[0] = WRITE;
-    tx_data[1] = WRITE;
-    transfer(fd, tx_data, rx_data);
-    expander_setPinGPIO(exp,2);
-    expander_printGPIO(exp);
-    
 
-  #ifdef RASPBERRYPIZ //Arduino SPI Routine
+    if (!bcm2835_init())
+    {
+      printf("bcm2835_init failed. Are you running as root??\n");
+      exit(EXIT_FAILURE);
+    }
 
-    int status = SpiOpenPort(0);
-    if(status < 0) exit_failure();
-
-
-    Transfer_spi_buffers(0,tx_data,rx_data,128,0);
-
-    one = rx_data[0];  //MSB Byte 1  (Read in data on dummy write (null MOSI signal)) - only one needed as 1 byte
-    two = rx_data[1];  //"LSB "Byte 2?"  (Read in data on dummy write (null MOSI signal)) - only one needed as 1 byte, but it seems like it responses will send a byte back in 16 bit response total, likely this LSB is useless, but for timing it will be collected.  This may always be a duplicate of the first byte,
-    
-    status = SpiClosePort(0);
-    if(status < 0) exit_failure();
-    
-  #endif
-
-	#ifdef ESP32ARCH  //example SPI routine for the ESP32
-	  spy = spiStartBus(VSPI, SPI_CLOCK_DIV16, SPI_MODE0, SPI_MSBFIRST); //Setup ESP32 SPI bus
-	  spiAttachSCK(spy, -1);
-      spiAttachMOSI(spy, -1);
-      spiAttachMISO(spy, -1);
-      digitalWrite(_SS, LOW); //Bring SS LOW (Active)
-      spiTransferByte(spy, commandHeader1); //Send MSB
-      spiTransferByte(spy, commandHeader2);  //Send LSB
-      one = spiTransferByte(spy, WRITE);  //dummy write MSB, read out MSB
-      two = spiTransferByte(spy, WRITE);  //dummy write LSB, read out LSB
-      digitalWrite(_SS, HIGH);  //Bring SS HIGH (inactive)
-      spiStopBus(spy);
-	#endif
+    if (!bcm2835_spi_begin())
+    {
+      printf("bcm2835_spi_begin failed. Are you running as root??\n");
+      exit(EXIT_FAILURE);
+    }
+      expander_resetOnlyPinSetOthersGPIO(exp, 5);
+      bcm2835_spi_transfer(commandHeader1); //Send MSB
+      bcm2835_spi_transfer(commandHeader2); //Send MSB
+      one = bcm2835_spi_transfer(WRITE);  //dummy write MSB, read out MSB
+      two = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
+      expander_setPinGPIO(exp,5);
+      bcm2835_spi_end();
 
 	#ifdef AVRESP8266 //Arduino SPI Routine
     // beginTransaction is first
@@ -138,67 +125,26 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
 	return readval_unsigned;
 }
 
-uint16_t ADE9078_getVersion(expander_t *exp, int fd){
 
-	  return ADE9078_spiRead16(VERSION_16, exp, fd);
+  uint16_t ADE9078_getVersion(expander_t *exp){
+
+	  return ADE9078_spiRead16(VERSION_16, exp);
 }
 
 
+int main(){
 
+    expander_t *exp = expander_init();
+    //spi_init();
+    // uint8_t send_data = 0x23;
+    // uint8_t read_data = bcm2835_spi_transfer(send_data);
+    // printf("Sent to SPI: 0x%02X. Read back from SPI: 0x%02X.\n", send_data, read_data);
+    // if (send_data != read_data)
+    //   printf("Do you have the loopback from MOSI to MISO connected?\n");
+    // bcm2835_spi_end();
 
-
-
-// spi.c
-//
-// Example program for bcm2835 library
-// Shows how to interface with SPI to transfer a byte to and from an SPI device
-//
-// After installing bcm2835, you can build this 
-// with something like:
-// gcc -o spi spi.c -l bcm2835
-// sudo ./spi
-//
-// Or you can test it before installing with:
-// gcc -o spi -I ../../src ../../src/bcm2835.c spi.c
-// sudo ./spi
-//
-// Author: Mike McCauley
-// Copyright (C) 2012 Mike McCauley
-// $Id: RF22.h,v 1.21 2012/05/30 01:51:25 mikem Exp $
-
-
-
-int main(int argc, char **argv)
-{
-    // If you call this, it will not actually access the GPIO
-// Use for testing
-//        bcm2835_set_debug(1);
-
-    if (!bcm2835_init())
-    {
-      printf("bcm2835_init failed. Are you running as root??\n");
-      return 1;
-    }
-
-    if (!bcm2835_spi_begin())
-    {
-      printf("bcm2835_spi_begin failed. Are you running as root??\n");
-      return 1;
-    }
-    bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);      // The default
-    bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);                   // The default
-    bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_65536); // The default
-    bcm2835_spi_chipSelect(BCM2835_SPI_CS0);                      // The default
-    bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW);      // the default
-    
-    // Send a byte to the slave and simultaneously read a byte back from the slave
-    // If you tie MISO to MOSI, you should read back what was sent
-    uint8_t send_data = 0x23;
-    uint8_t read_data = bcm2835_spi_transfer(send_data);
-    printf("Sent to SPI: 0x%02X. Read back from SPI: 0x%02X.\n", send_data, read_data);
-    if (send_data != read_data)
-      printf("Do you have the loopback from MOSI to MISO connected?\n");
-    bcm2835_spi_end();
+    uint16_t version = ADE9078_getVersion(exp);
     bcm2835_close();
-    return 0;
+
+  return 0;
 }
