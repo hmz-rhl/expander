@@ -155,7 +155,7 @@ int main(){
   // uint16_t rx = ADE9078_getVersion(exp, fd);  
   // printf("0x%04x\n", rx);
   char rx_data[20] = "";
-  char tx_data = "Hamza";
+  char *tx_data = "Hamza";
   transfer(fd, tx_data, rx_data);
   printf("received : %s\n", rx_data);
 
