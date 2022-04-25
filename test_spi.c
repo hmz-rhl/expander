@@ -51,10 +51,10 @@ int main(){
 	expander_setAllPinsGPIO(exp);
 
 
-	printf("id bits : ");
+	printf("id bytes : ");
 	for (size_t i = 0; i < 4; i++)
 	{
-		printf("%02x ", cmd_hdr2);
+		printf("%02x ", data[i]);
 
 	}
 	putchar('\n');
