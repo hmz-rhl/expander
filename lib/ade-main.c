@@ -141,7 +141,7 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd, spi_config
 
 
 uint8_t ADE9078_getVersion(expander_t *exp, int fd, spi_config_t *transfer){
-	return ADE9078_spiRead16(VERSION_16, exp, fd,spi_config_t *transfer);
+	return ADE9078_spiRead16(VERSION_16, exp, fd,transfer);
 }
 
 int main()
