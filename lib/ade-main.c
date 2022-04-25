@@ -1,5 +1,15 @@
 #include "expander-i2c.h"
 
+#include <stdint.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <getopt.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <linux/types.h>
+#include <linux/spi/spidev.h>
+
 #define VERSION_16 0x4FE //Reset: 0x0040 Access: R
 
 #define ADE9078_VERBOSE_DEBUG
