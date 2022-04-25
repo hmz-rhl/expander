@@ -162,7 +162,7 @@ int SpiClosePort (int fd)
     return(status_value);
 }
 
-{
+
 // void initializeADE9078(int fd,expander_t *exp){
 
 //   #ifdef ADE9078_VERBOSE_DEBUG
@@ -284,7 +284,7 @@ int SpiClosePort (int fd)
 //    printf(0xFFFFE000);
 //   #endif
 // }
-}
+
 
 uint8_t ADE9078_getVersion(){
 	return ADE9078_spiRead16(VERSION_16);
