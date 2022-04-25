@@ -153,11 +153,14 @@ int main()
     0,         // lsb_first {0,1}  (-1 when not configured).
     8,         // [7...] bit per words(-1 when not configured).
     1000000,   // frequency 0 when not configured.
-    1,         // {0,1}  (-1 when not configured).
+    1,         // spi_ready{0,1}  (-1 when not configured).
   };
-  expander_t *exp = expander_init(0x26);
-  ADE9078_getVersion(exp, fd, &spi_config);
-
+  // expander_t *exp = expander_init(0x26);
+  // ADE9078_getVersion(exp, fd, &spi_config);
+  
+  char tx_data[20];
+  Transfer_spi_buffers(fd,transfer, "HI", rx_data,4);
+  printf("received : %s", tx_data);
   close(fd);
 
 
