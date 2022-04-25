@@ -31,7 +31,7 @@ static uint8_t bits = 8;
 static uint32_t speed = 1000000;
 static uint16_t delay;
 
-static void pabort(const char *s)
+void pabort(const char *s)
 {
         perror(s);
         abort();
@@ -82,8 +82,7 @@ int  spi_init(){
   printf("max speed: %d Hz (%d KHz)\n", speed, speed/1000);
   return fd;
 }
-
-static void transfer(int fd, uint8_t *tx, uint8_t *rx)
+void transfer(int fd, uint8_t *tx, uint8_t *rx)
 {
         int ret;
         struct spi_ioc_transfer tr = {
