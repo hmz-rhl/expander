@@ -225,14 +225,15 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
      printf(" ADE9078::spiRead16 function completed \n");
     #endif
 
-	readval_unsigned = (one << 8);  //Process MSB  (Alternate bitshift algorithm)
+	  readval_unsigned = (one << 8);  //Process MSB  (Alternate bitshift algorithm)
     readval_unsigned = readval_unsigned + two;  //Process LSB
 	return readval_unsigned;
 }
 
 
-uint8_t ADE9078_getVersion(expander_t *exp, int fd){
-	return ADE9078_spiRead16(VERSION_16, exp, fd);
+  uint16_t ADE9078_getVersion(expander_t *exp, int fd){
+
+	  return ADE9078_spiRead16(VERSION_16, exp, fd);
 }
 
 
@@ -245,8 +246,8 @@ int main(){
   int fd = spi_init();
 
   expander_t *exp = expander_init(0x26);
-  ADE9078_getVersion(exp, fd);  
-  
+  uint8_t rx = ADE9078_getVersion(exp, fd);  
+  printf("%04x\n", 0xFFFF);
   //char rx_data[20] = "";
   //transfer(fd, "1", rx_data);
   //printf("received : %s\n", rx_data);
