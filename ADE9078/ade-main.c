@@ -1,5 +1,6 @@
 #include "expander-i2c.h"
 #include "bcm2835.h"
+#include "ADE9078registers.h"
 
 
 #include <stdint.h>
@@ -125,7 +126,7 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp) { //This is the al
 	return readval_unsigned;
 }
 
-uint32_t ADE9078::spiRead32(uint16_t address,expander_t *exp) { //This is the algorithm that reads from a 32 bit register in the ADE9078. The arguments are the MSB and LSB of the address of the register respectively. The values of the arguments are obtained from the list of functions above.  Caution, some register elements contain information that is only 24 bit with padding on the MSB
+uint32_t ADE9078_spiRead32(uint16_t address,expander_t *exp) { //This is the algorithm that reads from a 32 bit register in the ADE9078. The arguments are the MSB and LSB of the address of the register respectively. The values of the arguments are obtained from the list of functions above.  Caution, some register elements contain information that is only 24 bit with padding on the MSB
   #ifdef ADE9078_VERBOSE_DEBUG
    printf(" ADE9078::spiRead32 function started \n");
   #endif
@@ -203,7 +204,7 @@ uint32_t ADE9078::spiRead32(uint16_t address,expander_t *exp) { //This is the al
 }
 
 
-uint32_t ADE9078::getInstVoltageA(expander *exp){
+uint32_t ADE9078_getInstVoltageA(expander_t *exp){
 	uint32_t value=0;
 	value=spiRead32(AV_PCF_32, exp);
 return value;
