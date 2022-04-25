@@ -49,19 +49,19 @@ int main(){
 	wiringPiSPIDataRW (0, data, 6);
 	expander_setAllPinsGPIO(exp);
 
-	if(data[3] & 0x01)
+	if(data[1] & 0x01)
 		printf("ADE9004 : yes \n");
 	else{
 		printf("ADE9004 : no \n");
 	}
 
-	if((data[3] >> 4 )& 0x01)
+	if((data[1] >> 4 )& 0x01)
 		printf("ADE9000 : yes \n");
 	else{
 		printf("ADE9000 : no \n");
 	}
 	
-	if((data[3] >> 5) & 0x01)
+	if((data[1] >> 5) & 0x01)
 		printf("ADE73370 : yes \n");
 	else{
 		printf("ADE73370 : no \n");
