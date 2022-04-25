@@ -52,7 +52,7 @@ int Parse_spi_ready(const char *optarg, spi_config_t *config);
 
 int Parse_spi_bits_per_word(const char *optarg, spi_config_t *config);
 
-int Transfer_spi_buffers(int fd, void *tx_buffer, void *rx_buffer, size_t length);
+int Transfer_spi_buffers(int fd, void *tx_buffer, void *rx_buffer, unsigned long length);
 
 
 #endif
