@@ -116,6 +116,30 @@ int  spi_init(){
   return fd;
 }
 
+static void transfer(int fd, uint8_t *tx, uint8_t *rx)
+{
+        int ret;
+        struct spi_ioc_transfer tr = {
+                .tx_buf = (unsigned long)tx,
+                .rx_buf = (unsigned long)rx,
+                .len = ARRAY_SIZE(tx),
+                .delay_usecs = delay,
+                .speed_hz = speed,
+                .bits_per_word = bits,
+        };
+
+        ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
+        if (ret < 1)
+                pabort("can't send spi message");
+
+        for (ret = 0; ret < ARRAY_SIZE(tx); ret++) {
+                if (!(ret % 6))
+                        puts("");
+                printf("%.2X ", rx[ret]);
+        }
+        puts("");
+}
+
 uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This is the algorithm that reads from a register in the ADE9078. The arguments are the MSB and LSB of the address of the register respectively. The values of the arguments are obtained from the list of functions above.
     #ifdef ADE9078_VERBOSE_DEBUG
      printf(" ADE9078::spiRead16 function started \n");
@@ -214,29 +238,7 @@ uint8_t ADE9078_getVersion(expander_t *exp, int fd){
 
 
 
-static void transfer(int fd, uint8_t *tx, uint8_t *rx)
-{
-        int ret;
-        struct spi_ioc_transfer tr = {
-                .tx_buf = (unsigned long)tx,
-                .rx_buf = (unsigned long)rx,
-                .len = ARRAY_SIZE(tx),
-                .delay_usecs = delay,
-                .speed_hz = speed,
-                .bits_per_word = bits,
-        };
 
-        ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
-        if (ret < 1)
-                pabort("can't send spi message");
-
-        for (ret = 0; ret < ARRAY_SIZE(tx); ret++) {
-                if (!(ret % 6))
-                        puts("");
-                printf("%.2X ", rx[ret]);
-        }
-        puts("");
-}
 
 int main(){
 
