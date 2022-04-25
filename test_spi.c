@@ -53,7 +53,7 @@ int main(){
 	printf("id bits : ");
 	for (size_t i = 0; i < 4; i++)
 	{
-		printf("%d ", data[i]);
+		printf("%d ", cmd_hdr1);
 
 	}
 	putchar('\n');
