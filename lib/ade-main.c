@@ -144,6 +144,8 @@ int main(){
     // bcm2835_spi_end();
 
     uint16_t version = ADE9078_getVersion(exp);
+
+    printf("version %02x\n",version);
     bcm2835_close();
 
   return 0;
