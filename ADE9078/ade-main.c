@@ -84,13 +84,15 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp) { //This is the al
     #endif
    //Prepare the 12 bit command header from the inbound address provided to the function
     expander_setAllPinsGPIO(exp);
+
    uint16_t temp_address, readval_unsigned;
    temp_address = (((address << 4) & 0xFFF0)+8); //shift address  to align with cmd packet, convert the 16 bit address into the 12 bit command header. + 8 for isRead versus write
    uint8_t commandHeader1 = functionBitVal(temp_address, 1); //lookup and return first byte (MSB) of the 12 bit command header, sent first
    uint8_t commandHeader2 = functionBitVal(temp_address, 0); //lookup and return second byte (LSB) of the 12 bit command header, sent second
 
     uint8_t one, two; //holders for the read values from the SPI Transfer
-
+    uint8_t tx[4] = {commandHeader1, commandHeader2, WRITE, WRITE};
+    uint8_t rx[32];
 
     expander_printGPIO(exp);
 
@@ -112,10 +114,14 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp) { //This is the al
     //bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW);      // the default
 
       expander_resetOnlyPinSetOthersGPIO(exp, 5);
-      bcm2835_spi_write(commandHeader2); //Send MSB
-      bcm2835_spi_write(commandHeader1); //Send MSB
-      one = bcm2835_spi_transfer(WRITE);  //dummy write MSB, read out MSB
-      two = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
+      // bcm2835_spi_write(commandHeader2); //Send MSB
+      // bcm2835_spi_write(commandHeader1); //Send MSB
+      // one = bcm2835_spi_transfer(WRITE);  //dummy write MSB, read out MSB
+      // two = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
+       bcm2835_spi_transfernb(tx, rx, 6);
+        one = rx[0];  //dummy write MSB, read out MSB
+        two = rx[1];  //dummy write LSB, read out LSB
+
       expander_setPinGPIO(exp,5);
       bcm2835_spi_end();
 
@@ -156,11 +162,14 @@ uint32_t ADE9078_spiRead32(uint16_t address,expander_t *exp) { //This is the alg
   #endif
 
    //Prepare the 12 bit command header from the inbound address provided to the function
+
    uint16_t temp_address;
    temp_address = (((address << 4) & 0xFFF0)+8); //shift address  to align with cmd packet, convert the 16 bit address into the 12 bit command header. + 8 for isRead versus write
    uint8_t commandHeader1 = functionBitVal(temp_address, 1); //lookup and return first byte (MSB) of the 12 bit command header, sent first
    uint8_t commandHeader2 = functionBitVal(temp_address, 0); //lookup and return second byte (LSB) of the 12 bit command header, sent second
 
+  uint8_t tx[6] = {commandHeader1, commandHeader2, WRITE, WRITE, WRITE, WRITE};
+  uint8_t rx[32];
   uint8_t one, two, three, four; //holders for the read values from the SPI Transfer
 
 
@@ -183,12 +192,18 @@ uint32_t ADE9078_spiRead32(uint16_t address,expander_t *exp) { //This is the alg
 
     expander_resetOnlyPinSetOthersGPIO(exp, 5);
     expander_printGPIO(exp);
-      bcm2835_spi_write(commandHeader2); //Send MSB
-      bcm2835_spi_write(commandHeader1); //Send MSB
-      one = bcm2835_spi_transfer(WRITE);  //dummy write MSB, read out MSB
-      two = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
-      three = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
-      four = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
+
+    bcm2835_spi_transfernb(tx, rx, 6);
+    // bcm2835_spi_write(commandHeader2); //Send MSB
+    // bcm2835_spi_write(commandHeader1); //Send MSB
+    // one = bcm2835_spi_transfer(WRITE);  //dummy write MSB, read out MSB
+    // two = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
+    // three = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
+    // four = bcm2835_spi_transfer(WRITE);  //dummy write LSB, read out LSB
+    one = rx[0];  //dummy write MSB, read out MSB
+    two = rx[1];  //dummy write LSB, read out LSB
+    three = rx[2];  //dummy write LSB, read out LSB
+    four = rx[3];  //dummy write LSB, read out LSB
     expander_setPinGPIO(exp,5);
     bcm2835_spi_end();
 
@@ -215,11 +230,11 @@ uint32_t ADE9078_spiRead32(uint16_t address,expander_t *exp) { //This is the alg
    printf("%02x", commandHeader2);
    printf(" Returned bytes (1(MSB) to 4)[BINARY]: ");
    printf("%02x", one);
-   printf(" \n");
+   
    printf("%02x", two);
-   printf(" \n");
+   
    printf("%02x", three);
-   printf(" \n");
+   
    printf("%02x\n", four);
   #endif
 
@@ -232,6 +247,7 @@ void ADE9078_spiWrite32(uint16_t address, uint32_t data,expander_t *exp) {
 
 	//Prepare the 12 bit command header from the inbound address provided to the function
 	uint16_t temp_address;
+  
 	temp_address = ((address << 4) & 0xFFF0);	//shift address  to align with cmd packet, convert the 16 bit address into the 12 bit command header
 	uint8_t commandHeader1 = functionBitVal(temp_address, 1); //lookup and return first byte (MSB) of the 12 bit command header, sent first
 	uint8_t commandHeader2 = functionBitVal(temp_address, 0); //lookup and return second byte (LSB) of the 12 bit command header, sent second
@@ -292,6 +308,7 @@ void ADE9078_spiWrite16(uint16_t address, uint16_t data,expander_t *exp) {
 
    //Prepare the 12 bit command header from the inbound address provided to the function
    uint16_t temp_address;
+   
    temp_address = ((address << 4) & 0xFFF0);	//shift address to align with cmd packet, convert the 16 bit address into the 12 bit command header
    uint8_t commandHeader1 = functionBitVal(temp_address, 1); //lookup and return first byte (MSB) of the 12 bit command header, sent first
    uint8_t commandHeader2 = functionBitVal(temp_address, 0); //lookup and return second byte (LSB) of the 12 bit command header, sent second
@@ -338,6 +355,8 @@ if (!bcm2835_init())
   //  printf(" ADE9078::spiRead32 function completed \n");
   #endif
 }
+
+
 
   uint16_t ADE9078_getVersion(expander_t *exp){
 
