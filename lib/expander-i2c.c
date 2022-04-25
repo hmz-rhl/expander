@@ -513,8 +513,8 @@ void expander_printGPIO(expander_t *exp){
  * Affichage des ports GPIO de l'expander
  **/
     printf("___");
-    printf("%sExpander 0x%02x", KCYN, exp->addr);
-    printf("%s_______________\n",KWHT);
+    printf("Expander 0x%02x", exp->addr);
+    printf("_______________\n");
     for (size_t i = 0; i < 8; i++)
     {
         
