@@ -25,7 +25,7 @@ int main(){
 	unsigned char data = {cmd_hdr1, cmd_hdr2, 0x00, 0x00};
     
 	int fd = wiringPiSPISetup (0, 1000000);
-	if ((myFd = wiringPiSPISetup (0, speed)) < 0)
+	if (fd < 0)
 	{
 		fprintf (stderr, "Can't open the SPI bus: %s\n", strerror (errno)) ;
 		exit (EXIT_FAILURE) ;
