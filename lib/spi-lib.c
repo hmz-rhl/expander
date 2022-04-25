@@ -82,6 +82,7 @@ int  spi_init(){
   printf("max speed: %d Hz (%d KHz)\n", speed, speed/1000);
   return fd;
 }
+
 void transfer(int fd, uint8_t *tx, uint8_t *rx)
 {
         int ret;
