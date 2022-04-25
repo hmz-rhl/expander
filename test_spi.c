@@ -5,6 +5,7 @@
 #include <string.h>
 #include "stdlib.h"
 #include <errno.h>
+#include <stdint.h>
 
 
 #define MISO 9
