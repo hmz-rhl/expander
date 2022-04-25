@@ -160,7 +160,7 @@ int main()
   
   char rx_data[20];
   Transfer_spi_buffers(fd,&spi_config, "HI", rx_data,4);
-  printf("received : %s", tx_data);
+  printf("received : %s", rx_data);
   close(fd);
 
 
