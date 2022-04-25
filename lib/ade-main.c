@@ -70,6 +70,52 @@ uint8_t functionBitVal(uint16_t addr, uint8_t byteVal)
   return x;
 }
 
+int  spi_init(){
+
+  int fd = open("/dev/spidev0.0",O_RDWR);
+  int ret = -1;
+  if (fd < 0)
+          pabort("can't open device");
+
+  /*
+    * spi mode
+    */
+  ret = ioctl(fd, SPI_IOC_WR_MODE, &mode);
+  if (ret == -1)
+          pabort("can't set spi mode");
+
+  ret = ioctl(fd, SPI_IOC_RD_MODE, &mode);
+  if (ret == -1)
+          pabort("can't get spi mode");
+
+  /*
+    * bits per word
+    */
+  ret = ioctl(fd, SPI_IOC_WR_BITS_PER_WORD, &bits);
+  if (ret == -1)
+          pabort("can't set bits per word");
+
+  ret = ioctl(fd, SPI_IOC_RD_BITS_PER_WORD, &bits);
+  if (ret == -1)
+          pabort("can't get bits per word");
+
+  /*
+    * max speed hz
+    */
+  ret = ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &speed);
+  if (ret == -1)
+          pabort("can't set max speed hz");
+
+  ret = ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &speed);
+  if (ret == -1)
+          pabort("can't get max speed hz");
+
+  printf("spi mode: %d\n", mode);
+  printf("bits per word: %d\n", bits);
+  printf("max speed: %d Hz (%d KHz)\n", speed, speed/1000);
+  return fd;
+}
+
 uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This is the algorithm that reads from a register in the ADE9078. The arguments are the MSB and LSB of the address of the register respectively. The values of the arguments are obtained from the list of functions above.
     #ifdef ADE9078_VERBOSE_DEBUG
      printf(" ADE9078::spiRead16 function started \n");
@@ -97,8 +143,7 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
     transfer(fd, tx_data, rx_data);
     sleep(10);
     expander_setPinGPIO(exp,5);
-    expander_printGPIO(exp);
-
+    
 
   #ifdef RASPBERRYPIZ //Arduino SPI Routine
 
@@ -166,51 +211,7 @@ uint8_t ADE9078_getVersion(expander_t *exp, int fd){
 	return ADE9078_spiRead16(VERSION_16, exp, fd);
 }
 
-int  spi_init(){
 
-  int fd = open("/dev/spidev0.0",O_RDWR);
-  int ret = -1;
-  if (fd < 0)
-          pabort("can't open device");
-
-  /*
-    * spi mode
-    */
-  ret = ioctl(fd, SPI_IOC_WR_MODE, &mode);
-  if (ret == -1)
-          pabort("can't set spi mode");
-
-  ret = ioctl(fd, SPI_IOC_RD_MODE, &mode);
-  if (ret == -1)
-          pabort("can't get spi mode");
-
-  /*
-    * bits per word
-    */
-  ret = ioctl(fd, SPI_IOC_WR_BITS_PER_WORD, &bits);
-  if (ret == -1)
-          pabort("can't set bits per word");
-
-  ret = ioctl(fd, SPI_IOC_RD_BITS_PER_WORD, &bits);
-  if (ret == -1)
-          pabort("can't get bits per word");
-
-  /*
-    * max speed hz
-    */
-  ret = ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &speed);
-  if (ret == -1)
-          pabort("can't set max speed hz");
-
-  ret = ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &speed);
-  if (ret == -1)
-          pabort("can't get max speed hz");
-
-  printf("spi mode: %d\n", mode);
-  printf("bits per word: %d\n", bits);
-  printf("max speed: %d Hz (%d KHz)\n", speed, speed/1000);
-  return fd;
-}
 
 
 static void transfer(int fd, uint8_t *tx, uint8_t *rx)
@@ -242,7 +243,7 @@ int main(){
   int fd = spi_init();
 
   expander_t *exp = expander_init(0x26);
-  ADE9078_getVersion(exp, fd);  
+  ADE9078_getVersion(exp, fd, &spi_config);  
   
   //char rx_data[20] = "";
   //transfer(fd, "1", rx_data);
