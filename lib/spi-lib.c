@@ -159,9 +159,9 @@ int Parse_spi_bits_per_word(const char *optarg, spi_config_t *config)
 
 
 
-int Transfer_spi_buffers(int fd, spi_config_t *transfer, void *tx_buffer, void *rx_buffer, unsigned long length)
+int Transfer_spi_buffers(int fd, void *tx_buffer, void *rx_buffer, unsigned long length)
 {
-
+	struct spi_ioc_transfer transfer;
 
 	transfer->rx_buf = (unsigned long)rx_buffer;
 	transfer->tx_buf = (unsigned long)tx_buffer;
