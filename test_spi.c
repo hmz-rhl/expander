@@ -102,7 +102,7 @@ int main(){
 		printf("ADE73370 : no \n");
 	}
 
-	printf("Done ! \n");
+	printf("%04x Done ! \n",readval_unsigned);
 	// close(fd);
     bcm2835_close();
 
