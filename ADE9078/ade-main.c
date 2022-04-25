@@ -178,19 +178,19 @@ uint32_t ADE9078_spiRead32(uint16_t address,expander_t *exp) { //This is the alg
   #endif
 
   #ifdef ADE9078_VERBOSE_DEBUG
-   cout << (" Returned bytes 1-4, 1 is MSB [HEX]: \n");
-   cout << (" ADE9078::spiRead32 function details: \n");
-   cout << (" Command Header: ");
-   cout << (commandHeader1, BIN);
-   cout << (commandHeader2, BIN);
-   cout << (" Returned bytes (1(MSB) to 4)[BINARY]: ");
-   cout << ("%p", BIN);
-   cout << (" \n");
-   cout << ("%p", BIN);
-   cout << (" \n");
-   cout << ("%p", BIN);
-   cout << (" \n");
-   cout << ("%p", BIN);
+   printf(" Returned bytes 1-4, 1 is MSB [HEX]: \n");
+   printf(" ADE9078::spiRead32 function details: \n");
+   printf(" Command Header: ");
+   printf("%02x", commandHeader1);
+   printf("%02x", commandHeader2);
+   printf(" Returned bytes (1(MSB) to 4)[BINARY]: ");
+   printf("%02x", one);
+   printf(" \n");
+   printf("%02x", two);
+   printf(" \n");
+   printf("%02x", three);
+   printf(" \n");
+   printf("%02x", four);
   #endif
 
   //Post-read packing and bitshifting operations
