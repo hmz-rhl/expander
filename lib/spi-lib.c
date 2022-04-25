@@ -100,7 +100,7 @@ void transfer(int fd, uint8_t *tx, uint8_t *rx)
                 .speed_hz = speed,
                 .bits_per_word = bits,
         };
-        printf("tx: %s\nrx: %s\nlen: %d\ndelay: %d\nspeed: %dHz\nbits/word: %d\n\n", tr.tx_buf, tr.tx_buf, tr.len, tr.delay_usecs, tr.speed_hz, tr.bits_per_word);
+        printf("tx: %s\nrx: %s\nlen: %d\ndelay: %d\nspeed: %dHz\nbits/word: %d\n\n", tr.tx_buf, tr.rx_buf, tr.len, tr.delay_usecs, tr.speed_hz, tr.bits_per_word);
 
         ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
         if (ret < 1)
