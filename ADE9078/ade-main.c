@@ -224,8 +224,8 @@ int main(){
 
     expander_printGPIO(exp1);
 
-    printf("version %04x\n",ADE9078_getVersion(exp1));
-    printf("tension %dV\n",ADE9078_getInstVoltageA(exp1));
+    printf("version %04x\n",ADE9078_getVersion(exp2));
+    printf("tension %dV\n",ADE9078_getInstVoltageA(exp2));
 
 
     bcm2835_close();
