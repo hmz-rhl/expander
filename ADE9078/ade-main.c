@@ -45,7 +45,7 @@ uint8_t functionBitVal(uint16_t addr, uint8_t byteVal)
   uint16_t x = ((addr >> (8*byteVal)) & 0xff);
 
   #ifdef ADE9078_VERBOSE_DEBUG
-   printf(" ADE9078::functionBitVal function (separates high and low command bytes of provided addresses) details: ");
+   printf(" functionBitVal function (separates high and low command bytes of provided addresses) details: ");
    printf(" Address input (dec): ");
    printf("%d\n",addr);
    printf(" Byte requested (dec): ");
@@ -54,7 +54,7 @@ uint8_t functionBitVal(uint16_t addr, uint8_t byteVal)
    printf("%d\n", x);
    printf(" Returned Value (HEX): ");
    printf("%02x\n", x);
-   printf(" ADE9078::functionBitVal function completed ");
+   printf(" functionBitVal function completed\n\n");
   #endif
 
   return x;
@@ -62,7 +62,7 @@ uint8_t functionBitVal(uint16_t addr, uint8_t byteVal)
 
 uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp) { //This is the algorithm that reads from a register in the ADE9078. The arguments are the MSB and LSB of the address of the register respectively. The values of the arguments are obtained from the list of functions above.
     #ifdef ADE9078_VERBOSE_DEBUG
-     printf(" ADE9078::spiRead16 function started \n");
+     printf(" spiRead16 function started \n");
     #endif
    //Prepare the 12 bit command header from the inbound address provided to the function
     expander_setAllPinsGPIO(exp);
@@ -109,7 +109,7 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp) { //This is the al
 	#endif
 
     #ifdef ADE9078_VERBOSE_DEBUG
-     printf(" ADE9078::spiRead16 function details: \n");
+     printf(" spiRead16 function details: \n");
      printf(" Command Header: \n");
      printf("%02x\n",commandHeader1);
      printf("%02x\n",commandHeader2);
@@ -118,7 +118,7 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp) { //This is the al
      printf("%02x", one); //print MSB
      printf("\n");
      printf("%02x\n", two);  //print LSB
-     printf(" ADE9078::spiRead16 function completed \n");
+     printf(" spiRead16 function completed \n");
     #endif
 
 	  readval_unsigned = (one << 8);  //Process MSB  (Alternate bitshift algorithm)
@@ -128,7 +128,7 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp) { //This is the al
 
 uint32_t ADE9078_spiRead32(uint16_t address,expander_t *exp) { //This is the algorithm that reads from a 32 bit register in the ADE9078. The arguments are the MSB and LSB of the address of the register respectively. The values of the arguments are obtained from the list of functions above.  Caution, some register elements contain information that is only 24 bit with padding on the MSB
   #ifdef ADE9078_VERBOSE_DEBUG
-   printf(" ADE9078::spiRead32 function started \n");
+   printf(" spiRead32 function started \n");
   #endif
 
    //Prepare the 12 bit command header from the inbound address provided to the function
@@ -179,7 +179,7 @@ uint32_t ADE9078_spiRead32(uint16_t address,expander_t *exp) { //This is the alg
 
   #ifdef ADE9078_VERBOSE_DEBUG
    printf(" Returned bytes 1-4, 1 is MSB [HEX]: \n");
-   printf(" ADE9078::spiRead32 function details: \n");
+   printf(" spiRead32 function details: \n");
    printf(" Command Header: ");
    printf("%02x", commandHeader1);
    printf("%02x", commandHeader2);
@@ -190,7 +190,7 @@ uint32_t ADE9078_spiRead32(uint16_t address,expander_t *exp) { //This is the alg
    printf(" \n");
    printf("%02x", three);
    printf(" \n");
-   printf("%02x", four);
+   printf("%02x\n", four);
   #endif
 
   //Post-read packing and bitshifting operations
