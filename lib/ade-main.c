@@ -266,8 +266,8 @@ uint16_t ADE9078_spiRead16(uint16_t address, expander_t *exp, int fd) { //This i
 }
 
 
-uint8_t ADE9078_getVersion(){
-	return ADE9078_spiRead16(VERSION_16);
+uint8_t ADE9078_getVersion(expander_t *exp, int fd){
+	return ADE9078_spiRead16(VERSION_16, exp, fd);
 }
 
 int main()
