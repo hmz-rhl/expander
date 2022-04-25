@@ -242,7 +242,7 @@ int main(){
   int fd = spi_init();
 
   expander_t *exp = expander_init(0x26);
-  ADE9078_getVersion(exp, fd, &spi_config);  
+  ADE9078_getVersion(exp, fd);  
   
   //char rx_data[20] = "";
   //transfer(fd, "1", rx_data);
