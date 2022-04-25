@@ -25,11 +25,6 @@
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
-const char *device = "/dev/spidev0.0";
-uint8_t mode = SPI_MODE_0;
-uint8_t bits = 8;
-uint32_t speed = 1000000;
-uint16_t delay = 0;
 
 void pabort(const char *s)
 {
@@ -39,6 +34,12 @@ void pabort(const char *s)
 
 int  spi_init(){
 
+        
+  const char *device = "/dev/spidev0.0";
+  uint8_t mode = SPI_MODE_0;
+  uint8_t bits = 8;
+  uint32_t speed = 1000000;
+  uint16_t delay = 0;
   int fd = open(device,O_RDWR);
   int ret = -1;
   if (fd < 0)
@@ -86,6 +87,11 @@ int  spi_init(){
 void transfer(int fd, uint8_t *tx, uint8_t *rx)
 {
         int ret;
+        const char *device = "/dev/spidev0.0";
+        uint8_t mode = SPI_MODE_0;
+        uint8_t bits = 8;
+        uint32_t speed = 1000000;
+        uint16_t delay = 0;
         struct spi_ioc_transfer tr = {
                 .tx_buf = (unsigned long)tx,
                 .rx_buf = (unsigned long)rx,
