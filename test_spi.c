@@ -19,6 +19,10 @@
 
 #define PART_ID_16 0x403
 
+// test sur la RFID
+#define CIU_VERSION 0x6327
+#define STATUS 0xA9
+//#define HUBLOAD
 
 
 
@@ -31,6 +35,9 @@ int main(){
 		fprintf (stderr, "Can't open the SPI bus: %s\n", strerror (errno)) ;
 		exit (EXIT_FAILURE) ;
   	}
+
+#ifdef HUBLOAD
+
 	expander_t *exp = expander_init(0x27);
 	expander_t *exp1 = expander_init(0x26);
 
@@ -64,6 +71,17 @@ int main(){
 	}
 	putchar('\n');
 	expander_printGPIO(exp);
+#endif
+
+	uint8_t cmd_hdr1 = status ; // on obtient l'octet msb
+	uint8_t data;
+
+
+	data = cmd_hdr1;
+	wiringPiSPIDataRW (0, data, 1);
+
+	printf("status %d \n", data);
+
 	close(fd);
 
 	return EXIT_SUCCESS;
