@@ -329,9 +329,7 @@ void expander_resetPinGPIO(expander_t *exp, uint8_t pin){
  * 
  * 
  *  **/
-void
-
- expander_togglePinGPIO(expander_t* exp, uint8_t pin){
+void expander_togglePinGPIO(expander_t* exp, uint8_t pin){
 
     if(exp == NULL || exp == 0)
     {
