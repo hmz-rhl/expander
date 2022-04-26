@@ -30,7 +30,7 @@
 int main(){
 
 	wiringPiSetup();
-	int fd = wiringPiSPISetup (0, 1000000);
+	int fd = wiringPiSPISetup (1, 1000000);
 	if (fd < 0)
 	{
 		fprintf (stderr, "Can't open the SPI bus: %s\n", strerror (errno)) ;
