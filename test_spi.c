@@ -22,6 +22,7 @@
 // test sur la RFID
 #define CIU_VERSION 0x6327
 #define STATUS 0xA9
+#define STATUS_READ 0x03
 //#define HUBLOAD
 
 
@@ -72,12 +73,11 @@ int main(){
 	putchar('\n');
 	expander_printGPIO(exp);
 #endif
+	uint8_t data[2];
+	data[0] = STATUS;
+	data[1] = STATUS_READ;
 
-	uint8_t cmd_hdr1 = STATUS ; // on obtient l'octet msb
-	uint8_t data;
 
-
-	data = cmd_hdr1;
 	if(	wiringPiSPIDataRW (0, &data, 1) < 0)
 	{
 		fprintf (stderr, "Can't transfer data SPI bus: %s\n", strerror (errno)) ;
