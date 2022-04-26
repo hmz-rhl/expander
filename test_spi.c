@@ -29,7 +29,7 @@
 
 int main(){
 
-
+	wiringPiSetup();
 	int fd = wiringPiSPISetup (0, 1000000);
 	if (fd < 0)
 	{
