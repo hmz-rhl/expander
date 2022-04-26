@@ -31,11 +31,6 @@
 int main(){
 
 	wiringPiSetup();
-	if (fd < 0)
-	{
-		fprintf (stderr, "Can't open the SPI bus: %s\n", strerror (errno)) ;
-		exit (EXIT_FAILURE) ;
-  	}
 
 #ifdef HUBLOAD
 
