@@ -73,16 +73,24 @@ int main(){
 	putchar('\n');
 	expander_printGPIO(exp);
 #endif
+	pinMode(0, OUTPUT);
+	digitalWrite(0, LOW);
+	delay(2);
+	digitalWrite(0, HIGH);
+	delay (250);
 	uint8_t data[2];
 	data[0] = STATUS_READ;
 	data[1] = 0;
 
 
+	digitalWrite(0, LOW);
 	if(	wiringPiSPIDataRW (0, data, 2) < 0)
 	{
 		fprintf (stderr, "Can't transfer data SPI bus: %s\n", strerror (errno)) ;
 		exit (EXIT_FAILURE) ;
 	}
+	digitalWrite(0, HIGH);
+
 
 
 	printf("status %d \n", data[0]);
