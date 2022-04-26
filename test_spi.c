@@ -78,9 +78,9 @@ int main(){
 
 
 	data = cmd_hdr1;
-	wiringPiSPIDataRW (0, data, 1);
+	wiringPiSPIDataRW (0, &data, 1);
 
-	printf("status %d \n", &data);
+	printf("status %d \n", data);
 
 	close(fd);
 
