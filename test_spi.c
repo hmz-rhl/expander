@@ -74,7 +74,7 @@ int main(){
 	expander_printGPIO(exp);
 #endif
 	uint8_t data[2];
-	data[0] = STATUS;
+	data[0] = STATUS_READ;
 	data[1] = 0;
 
 
