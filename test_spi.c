@@ -73,14 +73,14 @@ int main(){
 	expander_printGPIO(exp);
 #endif
 
-	uint8_t cmd_hdr1 = status ; // on obtient l'octet msb
+	uint8_t cmd_hdr1 = STATUS ; // on obtient l'octet msb
 	uint8_t data;
 
 
 	data = cmd_hdr1;
 	wiringPiSPIDataRW (0, data, 1);
 
-	printf("status %d \n", data);
+	printf("status %d \n", &data);
 
 	close(fd);
 
