@@ -75,7 +75,7 @@ int main(){
 #endif
 	uint8_t data[2];
 	data[0] = STATUS;
-	data[1] = STATUS_READ;
+	data[1] = 0;
 
 
 	if(	wiringPiSPIDataRW (0, data, 1) < 0)
