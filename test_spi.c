@@ -2,6 +2,7 @@
 #include <wiringPiSPI.h>
 
 #include "expander-i2c.h"
+#include "bcm2835.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -30,7 +31,6 @@
 int main(){
 
 	wiringPiSetup();
-	int fd = wiringPiSPISetup (0, 1000000);
 	if (fd < 0)
 	{
 		fprintf (stderr, "Can't open the SPI bus: %s\n", strerror (errno)) ;
@@ -78,24 +78,34 @@ int main(){
 	delay(2);
 	digitalWrite(0, HIGH);
 	delay (250);
-	uint8_t data[2];
-	data[0] = STATUS_READ;
-	data[1] = 0;
+	uint8_t data, rx;
+	data = STATUS_READ;
 
 
+	if (!bcm2835_init())
+    {
+      printf("bcm2835_init failed. Are you running as root??\n");
+      exit(EXIT_FAILURE);
+    }
+
+    if (!bcm2835_spi_begin())
+    {
+      printf("bcm2835_spi_begin failed. Are you running as root??\n");
+      exit(EXIT_FAILURE);
+    }
+    bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);      // The default
+    bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);                   // The default
+    bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_65536); // The default
+    
 	digitalWrite(0, LOW);
-	if(	wiringPiSPIDataRW (0, data, 2) < 0)
-	{
-		fprintf (stderr, "Can't transfer data SPI bus: %s\n", strerror (errno)) ;
-		exit (EXIT_FAILURE) ;
-	}
+	bcm2835_spi_transfernb(&data, &rx, 1);
 	digitalWrite(0, HIGH);
 
 
 
-	printf("status %d \n", data[0]);
+	printf("status %d \n", rx);
+    bcm2835_close();
 
-	close(fd);
 
 	return EXIT_SUCCESS;
 }
