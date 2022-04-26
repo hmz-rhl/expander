@@ -78,7 +78,12 @@ int main(){
 
 
 	data = cmd_hdr1;
-	wiringPiSPIDataRW (0, &data, 1);
+	if(	wiringPiSPIDataRW (0, &data, 1) < 0)
+	{
+		fprintf (stderr, "Can't transfer data SPI bus: %s\n", strerror (errno)) ;
+		exit (EXIT_FAILURE) ;
+	}
+
 
 	printf("status %d \n", data);
 
