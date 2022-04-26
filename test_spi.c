@@ -85,7 +85,7 @@ int main(){
 	}
 
 
-	printf("status %d \n", data);
+	printf("status %d \n", data[0]);
 
 	close(fd);
 
