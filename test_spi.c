@@ -78,7 +78,7 @@ int main(){
 	data[1] = 0;
 
 
-	if(	wiringPiSPIDataRW (0, data, 1) < 0)
+	if(	wiringPiSPIDataRW (0, data, 2) < 0)
 	{
 		fprintf (stderr, "Can't transfer data SPI bus: %s\n", strerror (errno)) ;
 		exit (EXIT_FAILURE) ;
